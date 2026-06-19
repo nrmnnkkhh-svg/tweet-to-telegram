@@ -44,28 +44,26 @@ async def send_telegram(text, tweet_url):
 async def main():
     print(f"🚀 Run started")
     try:
-        # Build cookie string from secrets
+        # Add burner account with cookies
         auth_token = os.environ["X_AUTH_TOKEN"]
         ct0 = os.environ["X_CT0"]
         cookies_str = f"auth_token={auth_token}; ct0={ct0}"
+        await api.pool.add_account(BURNER_USERNAME, "dummy_pass", "", "", cookies=cookies_str)
 
-        await api.pool.add_account(
-            BURNER_USERNAME,
-            "dummy_pass",
-            "",
-            "",
-            cookies=cookies_str
-        )
-
-        # Verify
         acc = await api.pool.get_account(BURNER_USERNAME)
         print(f"Account active: {acc.active}")
         if not acc.active:
-            print("Account still not active – cookies may be invalid")
+            print("Account not active")
             return
 
+        # Resolve target username to user ID
+        user = await api.user_by_login(TWITTER_USER)
+        user_id = user.id
+        print(f"📌 User ID for {TWITTER_USER}: {user_id}")
+
+        # Fetch tweets by user ID
         tweets = []
-        async for t in api.user_tweets(TWITTER_USER, limit=10):
+        async for t in api.user_tweets(user_id, limit=10):
             tweets.append(t)
         print(f"📥 Got {len(tweets)} tweets")
     except Exception as e:
