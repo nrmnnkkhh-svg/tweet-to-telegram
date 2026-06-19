@@ -8,6 +8,9 @@ TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
 STATE_FILE = "state.json"
 HEADER = "📰 <b>Iran International Breaking</b>"
 
+# Your burner account username
+BURNER_USERNAME = "NormanKosmaqz"
+
 api = API()
 
 def load_state():
@@ -24,7 +27,12 @@ async def send_telegram(text, tweet_url):
     url = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
     safe = text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
     msg = f"{HEADER}\n\n{safe}\n\n<a href='{tweet_url}'>🔗 View on X</a>"
-    payload = {"chat_id": TELEGRAM_CHAT, "text": msg, "parse_mode": "HTML", "disable_web_page_preview": False}
+    payload = {
+        "chat_id": TELEGRAM_CHAT,
+        "text": msg,
+        "parse_mode": "HTML",
+        "disable_web_page_preview": False,
+    }
     async with aiohttp.ClientSession() as sess:
         async with sess.post(url, json=payload) as resp:
             data = await resp.json()
@@ -37,7 +45,23 @@ async def send_telegram(text, tweet_url):
 async def main():
     print(f"🚀 Run started")
     try:
-        await api.pool.add_account("", os.environ["X_AUTH_TOKEN"], os.environ["X_CT0"], "")
+        # Add the burner account with a dummy password
+        await api.pool.add_account(BURNER_USERNAME, "dummy_pass", "", "")
+
+        # Set the cookies from secrets
+        cookies = {
+            "auth_token": os.environ["X_AUTH_TOKEN"],
+            "ct0": os.environ["X_CT0"],
+        }
+        await api.pool.set_cookies(BURNER_USERNAME, cookies)
+
+        # Verify the account is now active
+        acc = await api.pool.get_account(BURNER_USERNAME)
+        print(f"Account active: {acc.active}")
+        if not acc.active:
+            print("Account still not active – cookies may be invalid")
+            return
+
         tweets = []
         async for t in api.user_tweets(TWITTER_USER, limit=10):
             tweets.append(t)
