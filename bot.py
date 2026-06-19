@@ -8,7 +8,6 @@ TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
 STATE_FILE = "state.json"
 HEADER = "📰 <b>Iran International Breaking</b>"
 
-# Your burner account username
 BURNER_USERNAME = "NormanKosmaqz"
 
 api = API()
@@ -45,17 +44,20 @@ async def send_telegram(text, tweet_url):
 async def main():
     print(f"🚀 Run started")
     try:
-        # Add the burner account with a dummy password
-        await api.pool.add_account(BURNER_USERNAME, "dummy_pass", "", "")
-
-        # Set the cookies from secrets
+        # Add account with cookies directly
         cookies = {
             "auth_token": os.environ["X_AUTH_TOKEN"],
             "ct0": os.environ["X_CT0"],
         }
-        await api.pool.set_cookies(BURNER_USERNAME, cookies)
+        await api.pool.add_account(
+            BURNER_USERNAME,
+            "dummy_pass",
+            "",
+            "",
+            cookies=cookies
+        )
 
-        # Verify the account is now active
+        # Verify
         acc = await api.pool.get_account(BURNER_USERNAME)
         print(f"Account active: {acc.active}")
         if not acc.active:
