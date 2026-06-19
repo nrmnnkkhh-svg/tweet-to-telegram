@@ -2,7 +2,7 @@ name: Forward Tweets to Telegram
 
 on:
   schedule:
-    - cron: '*/3 * * * *'
+    - cron: '*/5 * * * *'
   workflow_dispatch:
 
 jobs:
