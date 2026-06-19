@@ -44,17 +44,17 @@ async def send_telegram(text, tweet_url):
 async def main():
     print(f"🚀 Run started")
     try:
-        # Add account with cookies directly
-        cookies = {
-            "auth_token": os.environ["X_AUTH_TOKEN"],
-            "ct0": os.environ["X_CT0"],
-        }
+        # Build cookie string from secrets
+        auth_token = os.environ["X_AUTH_TOKEN"]
+        ct0 = os.environ["X_CT0"]
+        cookies_str = f"auth_token={auth_token}; ct0={ct0}"
+
         await api.pool.add_account(
             BURNER_USERNAME,
             "dummy_pass",
             "",
             "",
-            cookies=cookies
+            cookies=cookies_str
         )
 
         # Verify
