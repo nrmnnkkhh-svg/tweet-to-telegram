@@ -1,8 +1,8 @@
 name: Forward Tweets to Telegram
 
 on:
-  schedule:
-    - cron: '*/5 * * * *'
+  repository_dispatch:
+    types: [forward-tweets]
   workflow_dispatch:
 
 jobs:
@@ -31,4 +31,3 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add state.json
           git diff --staged --quiet || (git commit -m "Update state" && git push)
-    #test
