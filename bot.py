@@ -38,7 +38,6 @@ async def send_telegram(text, tweet_url):
             if data.get("ok"):
                 print(f"✅ Sent: {tweet_url}")
                 return True
-            # If rate limited, wait and retry once
             if data.get("error_code") == 429:
                 wait = data.get("parameters", {}).get("retry_after", 5)
                 print(f"⏳ Rate limited, waiting {wait}s...")
@@ -71,7 +70,6 @@ async def main():
         user_id = user.id
         print(f"📌 User ID for {TWITTER_USER}: {user_id}")
 
-        # Fetch recent tweets (collect up to 20 unique, newest first)
         raw_tweets = []
         seen = set()
         async for t in api.user_tweets(user_id, limit=20):
@@ -80,7 +78,6 @@ async def main():
                 raw_tweets.append(t)
                 if len(raw_tweets) >= 20:
                     break
-        # Sort by ID descending (newest first)
         raw_tweets.sort(key=lambda t: t.id, reverse=True)
         print(f"📥 Got {len(raw_tweets)} unique tweets")
     except Exception as e:
@@ -96,7 +93,6 @@ async def main():
     last_id = state.get("last_tweet_id")
     print(f"📌 Last forwarded tweet ID: {last_id or 'none'}")
 
-    # Filter new ones (ID greater than last_id)
     new_tweets = []
     for t in raw_tweets:
         if last_id and t.id <= last_id:
@@ -106,7 +102,6 @@ async def main():
             continue
         new_tweets.append(t)
 
-    # Now new_tweets are newest first, reverse to oldest first
     new_tweets.reverse()
 
     if not new_tweets:
@@ -123,87 +118,7 @@ async def main():
             state["last_tweet_id"] = t.id
             save_state(state)
             success += 1
-            await asyncio.sleep(2)   # slightly longer delay to avoid rate limits
-        else:
-            print(f"❌ Send failed, stopping batch")
-            break
-
-    state["total_sent"] = state.get("total_sent", 0) + success
-    save_state(state)
-    print(f"✅ Forwarded {success}/{len(new_tweets)} tweets")
-
-if __name__ == "__main__":
-    asyncio.run(main())            data = await resp.json()
-            if data.get("ok"):
-                print(f"✅ Sent: {tweet_url}")
-                return True
-            print(f"❌ Telegram error: {data}")
-            return False
-
-async def main():
-    print(f"🚀 Run started")
-    try:
-        # Add burner account with cookies
-        auth_token = os.environ["X_AUTH_TOKEN"]
-        ct0 = os.environ["X_CT0"]
-        cookies_str = f"auth_token={auth_token}; ct0={ct0}"
-        await api.pool.add_account(BURNER_USERNAME, "dummy_pass", "", "", cookies=cookies_str)
-
-        acc = await api.pool.get_account(BURNER_USERNAME)
-        print(f"Account active: {acc.active}")
-        if not acc.active:
-            print("Account not active")
-            return
-
-        # Resolve target username to user ID
-        user = await api.user_by_login(TWITTER_USER)
-        user_id = user.id
-        print(f"📌 User ID for {TWITTER_USER}: {user_id}")
-
-        # Fetch tweets by user ID
-        tweets = []
-        async for t in api.user_tweets(user_id, limit=10):
-            tweets.append(t)
-        print(f"📥 Got {len(tweets)} tweets")
-    except Exception as e:
-        print(f"❌ Fetch failed: {e}")
-        traceback.print_exc()
-        return
-
-    if not tweets:
-        print("⚠️ No tweets")
-        return
-
-    state = load_state()
-    last_id = state.get("last_tweet_id")
-    print(f"📌 Last forwarded tweet ID: {last_id or 'none'}")
-
-    new_tweets = []
-    for t in tweets:
-        if last_id and t.id <= last_id:
-            continue
-        text = t.rawContent or ""
-        if not text:
-            continue
-        new_tweets.append(t)
-
-    new_tweets.reverse()
-
-    if not new_tweets:
-        print("✅ Nothing new")
-        return
-
-    print(f"📬 {len(new_tweets)} new tweet(s)")
-
-    success = 0
-    for t in new_tweets:
-        url = f"https://x.com/{TWITTER_USER}/status/{t.id}"
-        print(f"📤 Sending {t.id}...")
-        if await send_telegram(t.rawContent, url):
-            state["last_tweet_id"] = t.id
-            save_state(state)
-            success += 1
-            await asyncio.sleep(1.5)
+            await asyncio.sleep(2)
         else:
             print(f"❌ Send failed, stopping batch")
             break
