@@ -3,10 +3,10 @@ import aiohttp
 from twscrape import API
 
 TWITTER_USER = "IranIntlBrk"
-TELEGRAM_CHAT = "@AutoNewsOnTG"
+TELEGRAM_CHAT = "@Intlbrk"
 TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
 STATE_FILE = "state.json"
-HEADER = "📰 <b>Iran International Breaking</b>"
+HEADER = "——————————————————————\n<i>📢 ایران اینترنشنال | خبر فوری</i>"
 
 BURNER_USERNAME = "NormanKosmaqz"
 
@@ -25,12 +25,12 @@ def save_state(state):
 async def send_telegram(text, tweet_url):
     url = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
     safe = text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
-    msg = f"{HEADER}\n\n{safe}\n\n<a href='{tweet_url}'>🔗 View on X</a>"
+    msg = f"{safe}\n\n{HEADER}\n\n@Intlbrk"
     payload = {
         "chat_id": TELEGRAM_CHAT,
         "text": msg,
         "parse_mode": "HTML",
-        "disable_web_page_preview": False,
+        "disable_web_page_preview": True,
     }
     async with aiohttp.ClientSession() as sess:
         async with sess.post(url, json=payload) as resp:
