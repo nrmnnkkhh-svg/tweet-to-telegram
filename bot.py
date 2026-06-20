@@ -6,7 +6,7 @@ TWITTER_USER = "IranIntlBrk"
 TELEGRAM_CHAT = "@Intlbrk"
 TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
 STATE_FILE = "state.json"
-HEADER = "——————————————————————\n<i>📢 ایران اینترنشنال | خبر فوری</i>"
+HEADER = "—————————————————————\n📢 ایران اینترنشنال - خبر فوری\n@Intlbrk"
 
 BURNER_USERNAME = "NormanKosmaqz"
 
@@ -25,11 +25,10 @@ def save_state(state):
 async def send_telegram(text, tweet_url):
     url = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
     safe = text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
-    msg = f"{safe}\n\n{HEADER}\n\n@Intlbrk"
+    msg = f"{safe}\n\n{HEADER}"
     payload = {
         "chat_id": TELEGRAM_CHAT,
         "text": msg,
-        "parse_mode": "HTML",
         "disable_web_page_preview": True,
     }
     async with aiohttp.ClientSession() as sess:
