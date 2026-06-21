@@ -1,4 +1,4 @@
-import asyncio, json, os, sys, traceback
+import asyncio, json, os, sys, traceback, random
 import aiohttp
 from twscrape import API
 
@@ -25,10 +25,10 @@ def save_state(state):
         json.dump(state, f)
 
 async def send_sticker():
-    """Send sticker with up to 3 retries and increasing delays."""
+    """Send sticker with up to 5 retries and increasing delays."""
     url = f"https://api.telegram.org/bot{TOKEN}/sendSticker"
     payload = {"chat_id": TELEGRAM_CHAT, "sticker": STICKER_FILE_ID}
-    for attempt in range(3):
+    for attempt in range(5):
         try:
             async with aiohttp.ClientSession() as sess:
                 async with sess.post(url, json=payload) as resp:
@@ -39,14 +39,14 @@ async def send_sticker():
                     if data.get("error_code") == 429:
                         wait = data.get("parameters", {}).get("retry_after", 5)
                         print(f"⏳ Sticker rate limited (attempt {attempt+1}), waiting {wait}s...")
-                        await asyncio.sleep(wait + 1)
+                        await asyncio.sleep(wait + random.uniform(1, 3))
                         continue
                     print(f"❌ Sticker error: {data}")
                     return False
         except Exception as e:
             print(f"❌ Sticker network error (attempt {attempt+1}): {e}")
-            await asyncio.sleep(2 ** attempt)
-    print(f"❌ Sticker failed after 3 attempts")
+            await asyncio.sleep(2 ** attempt + random.uniform(1, 3))
+    print(f"❌ Sticker failed after 5 attempts")
     return False
 
 async def send_telegram(text, tweet_url):
@@ -59,7 +59,7 @@ async def send_telegram(text, tweet_url):
         "text": msg,
         "disable_web_page_preview": True,
     }
-    for attempt in range(3):
+    for attempt in range(5):
         try:
             async with aiohttp.ClientSession() as sess:
                 async with sess.post(url, json=payload) as resp:
@@ -70,14 +70,14 @@ async def send_telegram(text, tweet_url):
                     if data.get("error_code") == 429:
                         wait = data.get("parameters", {}).get("retry_after", 5)
                         print(f"⏳ Rate limited (attempt {attempt+1}), waiting {wait}s...")
-                        await asyncio.sleep(wait + 1)
+                        await asyncio.sleep(wait + random.uniform(1, 3))
                         continue
                     print(f"❌ Telegram error: {data}")
                     return False
         except Exception as e:
             print(f"❌ Telegram network error (attempt {attempt+1}): {e}")
-            await asyncio.sleep(2 ** attempt)
-    print(f"❌ Telegram send failed after 3 attempts")
+            await asyncio.sleep(2 ** attempt + random.uniform(1, 3))
+    print(f"❌ Telegram send failed after 5 attempts")
     return False
 
 async def main():
@@ -151,11 +151,11 @@ async def main():
         save_state(state)
         success += 1
 
-        # Sticker between tweets (not after the last one)
         if idx < total - 1:
-            await asyncio.sleep(3)          # longer pause to respect rate limits
+            # Longer pause before sticker to avoid rate limits
+            await asyncio.sleep(5 + random.uniform(0, 2))
             await send_sticker()
-            await asyncio.sleep(3)          # extra gap after sticker
+            await asyncio.sleep(5 + random.uniform(0, 2))
         else:
             await asyncio.sleep(2)
 
