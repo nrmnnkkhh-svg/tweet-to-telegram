@@ -95,7 +95,7 @@ async def main():
 
     new_tweets = []
     for t in raw_tweets:
-        if last_id and t.id <= last_id:
+        if last_id and t.id <= int(last_id):
             continue
         text = t.rawContent or ""
         if not text:
