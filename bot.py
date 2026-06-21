@@ -10,8 +10,6 @@ HEADER = "—————————————————————\n📢 
 
 BURNER_USERNAME = "NormanKosmaqz"
 
-STICKER_FILE_ID = "CAACAgQAAxkBAAMCajdhWmizvusQB4anhde3bFYP4TQAAkoeAAK9UsFR2diMWgEMWjU8BA"
-
 api = API()
 
 def load_state():
@@ -24,33 +22,7 @@ def save_state(state):
     with open(STATE_FILE, "w") as f:
         json.dump(state, f)
 
-async def send_sticker():
-    """Send sticker with up to 5 retries and increasing delays."""
-    url = f"https://api.telegram.org/bot{TOKEN}/sendSticker"
-    payload = {"chat_id": TELEGRAM_CHAT, "sticker": STICKER_FILE_ID}
-    for attempt in range(5):
-        try:
-            async with aiohttp.ClientSession() as sess:
-                async with sess.post(url, json=payload) as resp:
-                    data = await resp.json()
-                    if data.get("ok"):
-                        print(f"✅ Sticker sent")
-                        return True
-                    if data.get("error_code") == 429:
-                        wait = data.get("parameters", {}).get("retry_after", 5)
-                        print(f"⏳ Sticker rate limited (attempt {attempt+1}), waiting {wait}s...")
-                        await asyncio.sleep(wait + random.uniform(1, 3))
-                        continue
-                    print(f"❌ Sticker error: {data}")
-                    return False
-        except Exception as e:
-            print(f"❌ Sticker network error (attempt {attempt+1}): {e}")
-            await asyncio.sleep(2 ** attempt + random.uniform(1, 3))
-    print(f"❌ Sticker failed after 5 attempts")
-    return False
-
 async def send_telegram(text, tweet_url):
-    """Send tweet text with rate-limit retry."""
     url = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
     safe = text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
     msg = f"{safe}\n\n{HEADER}"
@@ -139,10 +111,9 @@ async def main():
     print(f"📬 {len(new_tweets)} new tweet(s)")
 
     success = 0
-    total = len(new_tweets)
-    for idx, t in enumerate(new_tweets):
+    for t in new_tweets:
         url = f"https://x.com/{TWITTER_USER}/status/{t.id}"
-        print(f"📤 Sending {t.id} ({idx+1}/{total})...")
+        print(f"📤 Sending {t.id}...")
         if not await send_telegram(t.rawContent, url):
             print(f"❌ Send failed, stopping batch")
             break
@@ -150,18 +121,11 @@ async def main():
         state["last_tweet_id"] = t.id
         save_state(state)
         success += 1
-
-        if idx < total - 1:
-            # Longer pause before sticker to avoid rate limits
-            await asyncio.sleep(5 + random.uniform(0, 2))
-            await send_sticker()
-            await asyncio.sleep(5 + random.uniform(0, 2))
-        else:
-            await asyncio.sleep(2)
+        await asyncio.sleep(3 + random.uniform(0, 2))
 
     state["total_sent"] = state.get("total_sent", 0) + success
     save_state(state)
-    print(f"✅ Forwarded {success}/{total} tweets")
+    print(f"✅ Forwarded {success}/{len(new_tweets)} tweets")
 
 if __name__ == "__main__":
     asyncio.run(main())
