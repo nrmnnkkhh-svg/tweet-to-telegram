@@ -36,6 +36,17 @@ async def send_sticker():
             if data.get("ok"):
                 print(f"✅ Sticker sent")
                 return True
+            if data.get("error_code") == 429:
+                wait = data.get("parameters", {}).get("retry_after", 5)
+                print(f"⏳ Sticker rate limited, waiting {wait}s...")
+                await asyncio.sleep(wait + 1)
+                async with sess.post(url, json=payload) as resp2:
+                    data2 = await resp2.json()
+                    if data2.get("ok"):
+                        print(f"✅ Sticker sent (retry)")
+                        return True
+                    print(f"❌ Sticker error after retry: {data2}")
+                    return False
             print(f"❌ Sticker error: {data}")
             return False
 
@@ -140,9 +151,11 @@ async def main():
         success += 1
 
         if idx < total - 1:
-            await asyncio.sleep(1)
-            await send_sticker()
             await asyncio.sleep(2)
+            sticker_ok = await send_sticker()
+            if not sticker_ok:
+                print(f"⚠️ Sticker failed but continuing batch")
+            await asyncio.sleep(3)
         else:
             await asyncio.sleep(2)
 
