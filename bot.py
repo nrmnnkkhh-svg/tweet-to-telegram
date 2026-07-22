@@ -6,7 +6,7 @@ TWITTER_USER = "IranIntlBrk"
 TELEGRAM_CHAT = "@Intlbrk"
 TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
 STATE_FILE = "state.json"
-HEADER = "—————————————————————\n📢 ایران اینترنشنال - خبر فوری\n@Intlbrk"
+TEMPLATE_FILE = "template.txt"
 
 BURNER_USERNAME = "NormanKosmaqz"
 
@@ -22,10 +22,15 @@ def save_state(state):
     with open(STATE_FILE, "w") as f:
         json.dump(state, f)
 
+def load_template():
+    with open(TEMPLATE_FILE, "r", encoding="utf-8") as f:
+        return f.read().strip()
+
 async def send_telegram(text, tweet_url):
     url = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
     safe = text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
-    msg = f"{safe}\n\n{HEADER}"
+    template = load_template()
+    msg = template.replace("{text}", safe)
     payload = {
         "chat_id": TELEGRAM_CHAT,
         "text": msg,
@@ -91,11 +96,13 @@ async def main():
 
     state = load_state()
     last_id = state.get("last_tweet_id")
+    if last_id:
+        last_id = int(last_id)
     print(f"📌 Last forwarded tweet ID: {last_id or 'none'}")
 
     new_tweets = []
     for t in raw_tweets:
-        if last_id and t.id <= int(last_id):
+        if last_id and int(t.id) <= last_id:
             continue
         text = t.rawContent or ""
         if not text:
