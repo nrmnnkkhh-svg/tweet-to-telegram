@@ -3,10 +3,10 @@ import aiohttp
 from twscrape import API
 
 TWITTER_USER = "IranIntlBrk"
-TELEGRAM_CHAT = "@Intlbrk"
+TELEGRAM_CHAT = os.environ.get("TG_CHAT_ID", "@Intlbrk")   # clone overrides via env
 TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
-STATE_FILE = "state.json"
-TEMPLATE_FILE = "template.txt"
+STATE_FILE = os.environ.get("STATE_FILE", "state.json")
+TEMPLATE_FILE = os.environ.get("TEMPLATE_FILE", "template.txt")
 
 BURNER_USERNAME = "NormanKosmaqz"
 
@@ -42,8 +42,7 @@ async def send_telegram(text, tweet_url):
                 async with sess.post(url, json=payload) as resp:
                     data = await resp.json()
                     if data.get("ok"):
-                        print(f"✅ Sent: {tweet_url}")
-            print(f"DEBUG full response: {data}")
+                        print(f"✅ Sent to {TELEGRAM_CHAT}: {tweet_url}")
                         return True
                     if data.get("error_code") == 429:
                         wait = data.get("parameters", {}).get("retry_after", 5)
@@ -59,7 +58,10 @@ async def send_telegram(text, tweet_url):
     return False
 
 async def main():
-    print(f"🚀 Run started")
+    print(f"🚀 Clone run started")
+    print(f"📡 Target channel: {TELEGRAM_CHAT}")
+    print(f"📄 State file: {STATE_FILE}")
+    print(f"📄 Template: {TEMPLATE_FILE}")
     try:
         auth_token = os.environ["X_AUTH_TOKEN"]
         ct0 = os.environ["X_CT0"]
