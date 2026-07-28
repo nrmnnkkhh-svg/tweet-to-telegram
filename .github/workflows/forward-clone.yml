@@ -1,8 +1,8 @@
 name: Clone Channel Forward (Test)
 
 on:
-  schedule:
-    - cron: '*/10 * * * *'
+  repository_dispatch:
+    types: [forward-clone]
   workflow_dispatch:
 
 jobs:
@@ -10,14 +10,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-
       - name: Install dependencies
         run: pip install -r requirements.txt
-
       - name: Run forwarder (clone channel)
         env:
           X_AUTH_TOKEN_CLONE: ${{ secrets.X_AUTH_TOKEN_CLONE }}
@@ -27,7 +24,6 @@ jobs:
           STATE_FILE: "state-clone.json"
           TEMPLATE_FILE: "template-clone.txt"
         run: python bot_clone.py
-
       - name: Commit clone state
         run: |
           git config user.name "github-actions[bot]"
