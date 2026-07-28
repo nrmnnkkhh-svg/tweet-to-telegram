@@ -43,6 +43,7 @@ async def send_telegram(text, tweet_url):
                     data = await resp.json()
                     if data.get("ok"):
                         print(f"✅ Sent: {tweet_url}")
+            print(f"DEBUG full response: {data}")
                         return True
                     if data.get("error_code") == 429:
                         wait = data.get("parameters", {}).get("retry_after", 5)
