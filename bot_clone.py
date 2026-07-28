@@ -3,12 +3,12 @@ import aiohttp
 from twscrape import API
 
 TWITTER_USER = "IranIntlBrk"
-TELEGRAM_CHAT = os.environ.get("TG_CHAT_ID", "@Intlbrk")   # clone overrides via env
+TELEGRAM_CHAT = os.environ.get("TG_CHAT_ID", "@Intlbrk")
 TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
 STATE_FILE = os.environ.get("STATE_FILE", "state.json")
 TEMPLATE_FILE = os.environ.get("TEMPLATE_FILE", "template.txt")
 
-BURNER_USERNAME = "NormanKosmaqz"
+BURNER_USERNAME = "NRMNDIDI"
 
 api = API()
 
@@ -63,8 +63,8 @@ async def main():
     print(f"📄 State file: {STATE_FILE}")
     print(f"📄 Template: {TEMPLATE_FILE}")
     try:
-        auth_token = os.environ["X_AUTH_TOKEN"]
-        ct0 = os.environ["X_CT0"]
+        auth_token = os.environ.get("X_AUTH_TOKEN_CLONE", os.environ.get("X_AUTH_TOKEN"))
+        ct0 = os.environ.get("X_CT0_CLONE", os.environ.get("X_CT0"))
         cookies_str = f"auth_token={auth_token}; ct0={ct0}"
         await api.pool.add_account(BURNER_USERNAME, "dummy_pass", "", "", cookies=cookies_str)
 
