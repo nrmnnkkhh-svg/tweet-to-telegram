@@ -5,8 +5,7 @@ from twscrape import API
 TWITTER_USER   = "IranIntlBrk"
 TELEGRAM_CHAT  = "@Intlbrk"
 TOKEN          = os.environ["TELEGRAM_BOT_TOKEN"]
-AUTH_TOKEN     = os.environ["X_AUTH_TOKEN"]
-CT0            = os.environ["X_CT0"]
+COOKIES        = os.environ["X_COOKIES"]
 STATE_FILE     = "state.json"
 HEADER         = "📡 <b>Iran Intl Breaking</b>"
 
@@ -57,10 +56,9 @@ async def send_telegram(text, tweet_url):
 async def main():
     print("🚀 Run started")
     try:
-        auth_token = AUTH_TOKEN
-        ct0 = CT0
-        cookies_str = f"auth_token={auth_token}; ct0={ct0}"
-        await api.pool.add_account(BURNER_USERNAME, "dummy_pass", "", "", cookies=cookies_str)
+        # Use the CORRECT cookie‑auth method with ALL session cookies
+        await api.pool.add_account_cookies(BURNER_USERNAME, COOKIES)
+        print("✅ Cookies loaded")
 
         acc = await api.pool.get_account(BURNER_USERNAME)
         print(f"Account active: {acc.active}")
