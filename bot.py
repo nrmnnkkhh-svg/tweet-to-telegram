@@ -12,6 +12,7 @@ TEMPLATE_FILE  = "template.txt"
 BURNER_USERNAME = "nrmn_0000"
 
 SEPARATOR = "\n\n"
+MAX_RECENT_IDS = 500
 
 api = API()
 
@@ -30,7 +31,7 @@ def load_state():
     return state
 
 def save_state(state):
-    state["recent_ids"] = state["recent_ids"][-100:]
+    state["recent_ids"] = state["recent_ids"][-MAX_RECENT_IDS:]
     with open(STATE_FILE, "w") as f:
         json.dump(state, f, indent=2)
 
@@ -156,7 +157,7 @@ async def main():
     for t in raw_tweets:
         tid = int(t.id)
         if tid <= last_id or str(tid) in recent_ids:
-                print(f'⏭️  Skipping duplicate tweet {tid}')
+            print(f"⏭️  Skipping duplicate tweet {tid}")
             continue
         text = t.rawContent or ""
         if not text:
