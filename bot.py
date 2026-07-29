@@ -38,11 +38,14 @@ def load_template():
     with open(TEMPLATE_FILE, "r", encoding="utf-8") as f:
         return f.read().strip()
 
+def get_footer():
+    template = load_template()
+    return template.replace("{text}", "").strip()
+
 # ------------------------------------------------------------
 #  Telegram helpers
 # ------------------------------------------------------------
 async def send_message(text: str) -> int | None:
-    """Send a new message, return message_id."""
     url = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
     payload = {"chat_id": TELEGRAM_CHAT, "text": text, "disable_web_page_preview": True}
     for attempt in range(5):
@@ -66,7 +69,6 @@ async def send_message(text: str) -> int | None:
     return None
 
 async def edit_message(msg_id: int, new_text: str) -> bool:
-    """Edit an existing message."""
     url = f"https://api.telegram.org/bot{TOKEN}/editMessageText"
     payload = {"chat_id": TELEGRAM_CHAT, "message_id": msg_id, "text": new_text, "disable_web_page_preview": True}
     for attempt in range(5):
@@ -93,19 +95,22 @@ async def edit_message(msg_id: int, new_text: str) -> bool:
 #  Formatting helpers
 # ------------------------------------------------------------
 def format_single(text: str) -> str:
-    """Format a standalone tweet using the template."""
     safe = text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
     return load_template().replace("{text}", safe)
 
-def build_thread_text(tweet_texts: list[str], existing_text: str = "") -> str:
-    """Combine tweet texts with separators, appending footer."""
+def strip_footer(text: str, footer: str) -> str:
+    if footer and text.endswith(footer):
+        return text[:-len(footer)].rstrip()
+    return text
+
+def build_thread_text(tweet_texts: list[str], existing_text: str = "", footer: str = "") -> str:
     safe_texts = [t.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;") for t in tweet_texts]
-    if existing_text:
-        combined = existing_text + SEPARATOR + SEPARATOR.join(safe_texts)
+    clean_existing = strip_footer(existing_text, footer) if existing_text else ""
+    if clean_existing:
+        combined = clean_existing + SEPARATOR + SEPARATOR.join(safe_texts)
     else:
         combined = SEPARATOR.join(safe_texts)
-    footer = load_template().replace("{text}", "").strip()
-    if footer and not combined.endswith(footer):
+    if footer:
         combined += "\n\n" + footer
     return combined
 
@@ -145,6 +150,7 @@ async def main():
     last_id = int(last_id_raw) if last_id_raw else 0
     recent_ids = set(state.get("recent_ids", []))
     thread_map = state.get("thread_messages", {})
+    footer = get_footer()
 
     new_tweets = []
     for t in raw_tweets:
@@ -199,7 +205,8 @@ async def main():
             continue
 
         if existing and existing.get("msg_id"):
-            combined = build_thread_text(new_texts, existing["text"])
+            existing_text = existing.get("text", "")
+            combined = build_thread_text(new_texts, existing_text, footer)
             if await edit_message(existing["msg_id"], combined):
                 existing["text"] = combined
                 max_id = max(int(tw["id"]) for tw in tweets_in_thread)
@@ -211,7 +218,7 @@ async def main():
                 existing = None
 
         if not existing:
-            combined = build_thread_text([t["text"] for t in tweets_in_thread])
+            combined = build_thread_text([t["text"] for t in tweets_in_thread], "", footer)
             msg_id = await send_message(combined)
             if msg_id:
                 max_id = max(t["id"] for t in tweets_in_thread)
