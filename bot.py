@@ -63,7 +63,15 @@ async def main():
         auth_token = os.environ["X_AUTH_TOKEN"]
         ct0 = os.environ["X_CT0"]
         cookies_str = f"auth_token={auth_token}; ct0={ct0}"
-        await api.pool.add_account(BURNER_USERNAME, "dummy_pass", "", "", cookies=cookies_str)
+        headers = {"x-csrf-token": ct0}
+        await api.pool.add_account(
+            BURNER_USERNAME,
+            "dummy_pass",
+            "",
+            "",
+            cookies=cookies_str,
+            headers=headers
+        )
 
         acc = await api.pool.get_account(BURNER_USERNAME)
         print(f"Account active: {acc.active}")
