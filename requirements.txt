@@ -1,2 +1,2 @@
-twscrape[curl]>=0.14.0
+curl_cffi>=0.8
 aiohttp>=3.9
