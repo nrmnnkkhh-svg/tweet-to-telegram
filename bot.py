@@ -8,7 +8,7 @@ TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
 STATE_FILE = "state.json"
 TEMPLATE_FILE = "template.txt"
 
-BURNER_USERNAME = "ddnrmn"
+BURNER_USERNAME = "NRMNDIDI"
 
 api = API()
 
