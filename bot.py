@@ -7,7 +7,7 @@ TELEGRAM_CHAT  = "@Intlbrk"
 TOKEN          = os.environ["TELEGRAM_BOT_TOKEN"]
 COOKIES        = os.environ["X_COOKIES"]
 STATE_FILE     = "state.json"
-HEADER         = "📡 <b>Iran Intl Breaking</b>"
+TEMPLATE_FILE  = "template.txt"
 
 BURNER_USERNAME = "nrmn_0000"
 
@@ -23,14 +23,18 @@ def save_state(state):
     with open(STATE_FILE, "w") as f:
         json.dump(state, f, indent=2)
 
+def load_template():
+    with open(TEMPLATE_FILE, "r", encoding="utf-8") as f:
+        return f.read().strip()
+
 async def send_telegram(text, tweet_url):
     url = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
     safe = text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
-    msg = f"{HEADER}\n\n{safe}\n\n<a href='{tweet_url}'>🔗 View on X</a>"
+    template = load_template()
+    msg = template.replace("{text}", safe)
     payload = {
         "chat_id": TELEGRAM_CHAT,
         "text": msg,
-        "parse_mode": "HTML",
         "disable_web_page_preview": True,
     }
     for attempt in range(5):
@@ -56,7 +60,6 @@ async def send_telegram(text, tweet_url):
 async def main():
     print("🚀 Run started")
     try:
-        # Use the CORRECT cookie‑auth method with ALL session cookies
         await api.pool.add_account_cookies(BURNER_USERNAME, COOKIES)
         print("✅ Cookies loaded")
 
