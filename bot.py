@@ -1,39 +1,40 @@
-import asyncio, json, os, sys, traceback, random
+import asyncio, json, os, random, traceback
 import aiohttp
 from twscrape import API
 
-TWITTER_USER = "IranIntlBrk"
-TELEGRAM_CHAT = "@Intlbrk"
-TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
-STATE_FILE = "state.json"
-TEMPLATE_FILE = "template.txt"
-
-BURNER_USERNAME = "nrmn_0000"
-
-api = API()
+TWITTER_USER   = "IranIntlBrk"
+TELEGRAM_CHAT  = "@Intlbrk"
+TOKEN          = os.environ["TELEGRAM_BOT_TOKEN"]
+AUTH_TOKEN     = os.environ["X_AUTH_TOKEN"]
+CT0            = os.environ["X_CT0"]
+ACCOUNT_NAME   = os.environ.get("X_USERNAME", "burner_account")
+STATE_FILE     = "state.json"
 
 def load_state():
     if os.path.exists(STATE_FILE):
-        with open(STATE_FILE) as f:
-            return json.load(f)
+        try:
+            with open(STATE_FILE) as f:
+                return json.load(f)
+        except Exception:
+            pass
     return {}
 
 def save_state(state):
     with open(STATE_FILE, "w") as f:
-        json.dump(state, f)
+        json.dump(state, f, indent=2)
 
-def load_template():
-    with open(TEMPLATE_FILE, "r", encoding="utf-8") as f:
-        return f.read().strip()
-
-async def send_telegram(text, tweet_url):
-    url = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
-    safe = text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
-    template = load_template()
-    msg = template.replace("{text}", safe)
+async def send_telegram(tweet_id: str, text: str) -> bool:
+    url    = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
+    link   = f"https://x.com/{TWITTER_USER}/status/{tweet_id}"
+    safe   = (text
+               .replace("&", "&amp;")
+               .replace("<", "&lt;")
+               .replace(">", "&gt;"))
+    msg    = f"📡 <b>Iran Intl Breaking</b>\n\n{safe}\n\n<a href='{link}'>🔗 View on X</a>"
     payload = {
-        "chat_id": TELEGRAM_CHAT,
-        "text": msg,
+        "chat_id":                  TELEGRAM_CHAT,
+        "text":                     msg,
+        "parse_mode":               "HTML",
         "disable_web_page_preview": True,
     }
     for attempt in range(5):
@@ -42,105 +43,69 @@ async def send_telegram(text, tweet_url):
                 async with sess.post(url, json=payload) as resp:
                     data = await resp.json()
                     if data.get("ok"):
-                        print(f"✅ Sent: {tweet_url}")
+                        print(f"✅ Sent tweet {tweet_id}")
                         return True
                     if data.get("error_code") == 429:
-                        wait = data.get("parameters", {}).get("retry_after", 5)
-                        print(f"⏳ Rate limited (attempt {attempt+1}), waiting {wait}s...")
-                        await asyncio.sleep(wait + random.uniform(1, 3))
+                        wait = data.get("parameters", {}).get("retry_after", 10)
+                        print(f"⏳ Telegram rate limit, waiting {wait}s…")
+                        await asyncio.sleep(wait + 2)
                         continue
                     print(f"❌ Telegram error: {data}")
                     return False
-        except Exception as e:
-            print(f"❌ Telegram network error (attempt {attempt+1}): {e}")
-            await asyncio.sleep(2 ** attempt + random.uniform(1, 3))
-    print(f"❌ Telegram send failed after 5 attempts")
+        except Exception as exc:
+            print(f"❌ Telegram network error (attempt {attempt+1}): {exc}")
+            await asyncio.sleep(2 ** attempt + random.uniform(0, 2))
     return False
 
 async def main():
-    print(f"🚀 Run started")
-    try:
-        auth_token = os.environ["X_AUTH_TOKEN"]
-        ct0 = os.environ["X_CT0"]
-        cookies_str = f"auth_token={auth_token}; ct0={ct0}"
-        headers = {"x-csrf-token": ct0}
-        await api.pool.add_account(
-            BURNER_USERNAME,
-            "dummy_pass",
-            "",
-            "",
-            cookies=cookies_str,
-            headers=headers
-        )
+    print("🚀 Run started")
+    state      = load_state()
+    last_id    = int(state.get("last_tweet_id", 0))
+    print(f"Last stored tweet ID: {last_id or '(none — first run)'}")
 
-        acc = await api.pool.get_account(BURNER_USERNAME)
-        print(f"Account active: {acc.active}")
-        if not acc.active:
-            print("Account not active")
-            return
+    api          = API()
+    cookie_str   = f"auth_token={AUTH_TOKEN}; ct0={CT0}"
+    await api.pool.add_account_cookies(ACCOUNT_NAME, cookie_str)
+    print(f"✅ Account '{ACCOUNT_NAME}' added via cookie auth")
 
-        user = await api.user_by_login(TWITTER_USER)
-        user_id = user.id
-        print(f"📌 User ID for {TWITTER_USER}: {user_id}")
-
-        raw_tweets = []
-        seen = set()
-        async for t in api.user_tweets(user_id, limit=20):
-            if t.id not in seen:
-                seen.add(t.id)
-                raw_tweets.append(t)
-                if len(raw_tweets) >= 20:
-                    break
-        raw_tweets.sort(key=lambda t: t.id, reverse=True)
-        print(f"📥 Got {len(raw_tweets)} unique tweets")
-    except Exception as e:
-        print(f"❌ Fetch failed: {e}")
-        traceback.print_exc()
-        return
-
-    if not raw_tweets:
-        print("⚠️ No tweets")
-        return
-
-    state = load_state()
-    last_id = state.get("last_tweet_id")
+    query = f"from:{TWITTER_USER} -filter:replies -filter:retweets"
     if last_id:
-        last_id = int(last_id)
-    print(f"📌 Last forwarded tweet ID: {last_id or 'none'}")
+        query += f" since_id:{last_id}"
+
+    print(f"🔍 Search query: {query}")
 
     new_tweets = []
-    for t in raw_tweets:
-        if last_id and int(t.id) <= last_id:
-            continue
-        text = t.rawContent or ""
-        if not text:
-            continue
-        new_tweets.append(t)
-
-    new_tweets.reverse()
+    try:
+        async with asyncio.timeout(60):
+            async for tweet in api.search(query, limit=20):
+                if tweet.id <= last_id:
+                    continue
+                new_tweets.append(tweet)
+    except asyncio.TimeoutError:
+        print("⚠️ Search timed out after 60s — using tweets collected so far")
+    except Exception as exc:
+        print(f"❌ Fetch error: {exc}")
+        traceback.print_exc()
 
     if not new_tweets:
-        print("✅ Nothing new")
+        print("✓ No new tweets found.")
         return
 
-    print(f"📬 {len(new_tweets)} new tweet(s)")
+    new_tweets.sort(key=lambda t: t.id)
+    print(f"📬 {len(new_tweets)} new tweet(s) to forward")
 
-    success = 0
-    for t in new_tweets:
-        url = f"https://x.com/{TWITTER_USER}/status/{t.id}"
-        print(f"📤 Sending {t.id}...")
-        if not await send_telegram(t.rawContent, url):
-            print(f"❌ Send failed, stopping batch")
-            break
+    newest_id = last_id
+    for tweet in new_tweets:
+        ok = await send_telegram(str(tweet.id), tweet.rawContent)
+        if ok:
+            newest_id = max(newest_id, tweet.id)
+        await asyncio.sleep(1.5)
 
-        state["last_tweet_id"] = t.id
-        save_state(state)
-        success += 1
-        await asyncio.sleep(3 + random.uniform(0, 2))
-
-    state["total_sent"] = state.get("total_sent", 0) + success
-    save_state(state)
-    print(f"✅ Forwarded {success}/{len(new_tweets)} tweets")
+    if newest_id > last_id:
+        save_state({"last_tweet_id": str(newest_id)})
+        print(f"✅ Saved new last_tweet_id: {newest_id}")
+    else:
+        print("⚠️ No tweets successfully sent; state not updated")
 
 if __name__ == "__main__":
     asyncio.run(main())
