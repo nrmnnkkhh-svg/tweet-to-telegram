@@ -1,4 +1,4 @@
-import asyncio, json, os, random, traceback
+import asyncio, json, os, random, traceback, time
 import aiohttp
 from twscrape import API
 
@@ -13,6 +13,8 @@ BURNER_USERNAME = "nrmn_0000"
 
 SEPARATOR = "\n\n"
 MAX_RECENT_IDS = 500
+DELETION_CHECK_COUNT = 5        # how many old tweets to check per run
+DELETION_MIN_AGE = 300          # only check tweets older than 5 minutes (seconds)
 
 api = API()
 
@@ -21,17 +23,35 @@ api = API()
 # ------------------------------------------------------------
 def load_state():
     if not os.path.exists(STATE_FILE):
-        return {"last_tweet_id": None, "recent_ids": [], "thread_messages": {}, "total_sent": 0}
+        return {
+            "last_tweet_id": None,
+            "recent_ids": [],
+            "thread_messages": {},
+            "total_sent": 0,
+            "tweet_to_msg": {}   # new: {tweet_id: {"msg_id": ..., "conv_id": ..., "is_thread": bool}}
+        }
     with open(STATE_FILE, "r") as f:
         state = json.load(f)
     state.setdefault("last_tweet_id", None)
     state.setdefault("recent_ids", [])
     state.setdefault("thread_messages", {})
     state.setdefault("total_sent", 0)
+    state.setdefault("tweet_to_msg", {})
+    # Ensure thread_messages have the new "texts" list
+    for conv_id, entry in state["thread_messages"].items():
+        if "texts" not in entry:
+            # legacy: we don't have individual texts, so we can't reconstruct perfectly
+            # but we can still handle deletion by deleting the whole message if any tweet deleted
+            entry["texts"] = []   # empty list means we don't know
+        if "combined" not in entry:
+            entry["combined"] = entry.get("text", "")
     return state
 
 def save_state(state):
     state["recent_ids"] = state["recent_ids"][-MAX_RECENT_IDS:]
+    # Clean up tweet_to_msg to only keep recent_ids
+    valid_ids = set(state["recent_ids"])
+    state["tweet_to_msg"] = {tid: info for tid, info in state["tweet_to_msg"].items() if tid in valid_ids}
     with open(STATE_FILE, "w") as f:
         json.dump(state, f, indent=2)
 
@@ -92,6 +112,29 @@ async def edit_message(msg_id: int, new_text: str) -> bool:
             await asyncio.sleep(2 ** attempt + random.uniform(0, 2))
     return False
 
+async def delete_message(msg_id: int) -> bool:
+    url = f"https://api.telegram.org/bot{TOKEN}/deleteMessage"
+    payload = {"chat_id": TELEGRAM_CHAT, "message_id": msg_id}
+    for attempt in range(3):
+        try:
+            async with aiohttp.ClientSession() as sess:
+                async with sess.post(url, json=payload) as resp:
+                    data = await resp.json()
+                    if data.get("ok"):
+                        print(f"🗑️  Deleted msg {msg_id}")
+                        return True
+                    if data.get("error_code") == 429:
+                        wait = data.get("parameters", {}).get("retry_after", 10)
+                        print(f"⏳ Rate limited, waiting {wait}s…")
+                        await asyncio.sleep(wait + 2)
+                        continue
+                    print(f"❌ Delete error: {data}")
+                    return False
+        except Exception as exc:
+            print(f"❌ Delete error (attempt {attempt+1}): {exc}")
+            await asyncio.sleep(2 ** attempt)
+    return False
+
 # ------------------------------------------------------------
 #  Formatting helpers
 # ------------------------------------------------------------
@@ -104,16 +147,112 @@ def strip_footer(text: str, footer: str) -> str:
         return text[:-len(footer)].rstrip()
     return text
 
-def build_thread_text(tweet_texts: list[str], existing_text: str = "", footer: str = "") -> str:
-    safe_texts = [t.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;") for t in tweet_texts]
-    clean_existing = strip_footer(existing_text, footer) if existing_text else ""
-    if clean_existing:
-        combined = clean_existing + SEPARATOR + SEPARATOR.join(safe_texts)
-    else:
-        combined = SEPARATOR.join(safe_texts)
+def build_thread_text(texts: list[str], footer: str) -> str:
+    """Build a combined thread message from a list of individual tweet texts."""
+    safe_texts = [t.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;") for t in texts]
+    combined = SEPARATOR.join(safe_texts)
     if footer:
         combined += "\n\n" + footer
     return combined
+
+# ------------------------------------------------------------
+#  Deletion check helper
+# ------------------------------------------------------------
+async def check_deleted_tweets(state, thread_map):
+    """Check a few recent old tweets for deletion and clean up Telegram messages."""
+    tweet_to_msg = state.get("tweet_to_msg", {})
+    recent_ids = state.get("recent_ids", [])
+    if not recent_ids:
+        return
+
+    # We'll check tweets that are older than DELETION_MIN_AGE to avoid
+    # checking tweets that were just posted (which may still be indexed).
+    # We don't have exact timestamps, so we'll approximate by taking
+    # tweets that are towards the older end of the recent_ids list.
+    # recent_ids is kept in ascending order (oldest first, newest last)
+    # We'll pick the first few IDs that are not among the very last few.
+    # Actually, recent_ids is a list of the last 500 forwarded IDs, newest at the end.
+    # We'll take the earliest ones (index 0 to DELETION_CHECK_COUNT-1) because they
+    # are the oldest and most likely to have been deleted.
+    candidates = []
+    for tid in recent_ids:
+        info = tweet_to_msg.get(tid)
+        if info:
+            candidates.append(tid)
+            if len(candidates) >= DELETION_CHECK_COUNT:
+                break
+
+    if not candidates:
+        return
+
+    print(f"🔍 Checking {len(candidates)} old tweets for deletion...")
+    for tid in candidates:
+        try:
+            # Use twscrape to get tweet details
+            tweet = await api.tweet_details(tid)
+            if tweet is None:
+                print(f"🗑️  Tweet {tid} not found / deleted")
+                await handle_deleted_tweet(tid, state, thread_map, tweet_to_msg)
+            else:
+                print(f"✅ Tweet {tid} still exists")
+        except Exception as e:
+            print(f"⚠️ Error checking tweet {tid}: {e}")
+        await asyncio.sleep(1)  # small delay between API calls
+
+async def handle_deleted_tweet(tid: str, state, thread_map, tweet_to_msg):
+    """Remove the Telegram message for a deleted tweet."""
+    info = tweet_to_msg.get(tid)
+    if not info:
+        return
+
+    msg_id = info["msg_id"]
+    conv_id = info.get("conv_id")
+    is_thread = info.get("is_thread", False)
+
+    if not is_thread or not conv_id or conv_id not in thread_map:
+        # Standalone tweet – just delete the message
+        await delete_message(msg_id)
+        # Remove from mappings
+        del tweet_to_msg[tid]
+        if tid in state["recent_ids"]:
+            state["recent_ids"].remove(tid)
+    else:
+        # Thread tweet – need to edit the thread message
+        thread_entry = thread_map.get(conv_id)
+        if not thread_entry:
+            return
+        # Remove the deleted tweet text from the texts list
+        deleted_text = info.get("text", "")
+        texts = thread_entry.get("texts", [])
+        if deleted_text in texts:
+            texts.remove(deleted_text)
+        else:
+            # Try to find it (maybe the text changed slightly due to escaping)
+            # We'll just remove the stored text from the combined message
+            pass
+
+        if not texts:
+            # All tweets in thread deleted – delete the whole message
+            await delete_message(msg_id)
+            del thread_map[conv_id]
+            for t, inf in list(tweet_to_msg.items()):
+                if inf.get("conv_id") == conv_id:
+                    del tweet_to_msg[t]
+                    if t in state["recent_ids"]:
+                        state["recent_ids"].remove(t)
+        else:
+            # Rebuild combined text
+            footer = get_footer()
+            combined = build_thread_text(texts, footer)
+            if await edit_message(msg_id, combined):
+                thread_entry["texts"] = texts
+                thread_entry["combined"] = combined
+                # Remove mapping for deleted tweet
+                del tweet_to_msg[tid]
+                if tid in state["recent_ids"]:
+                    state["recent_ids"].remove(tid)
+            else:
+                print(f"⚠️ Failed to edit thread message after deletion")
 
 # ------------------------------------------------------------
 #  Main
@@ -151,6 +290,7 @@ async def main():
     last_id = int(last_id_raw) if last_id_raw else 0
     recent_ids = set(state.get("recent_ids", []))
     thread_map = state.get("thread_messages", {})
+    tweet_to_msg = state.get("tweet_to_msg", {})
     footer = get_footer()
 
     new_tweets = []
@@ -166,57 +306,90 @@ async def main():
         new_tweets.append({"id": tid, "text": text, "conv_id": conv_id})
 
     if not new_tweets:
-        print("✅ Nothing new"); return
+        print("✅ Nothing new"); 
+    else:
+        new_tweets.sort(key=lambda x: x["id"])
 
-    new_tweets.sort(key=lambda x: x["id"])
+        for tw in new_tweets:
+            conv_id = tw["conv_id"]
+            existing = thread_map.get(conv_id)
 
-    for tw in new_tweets:
-        conv_id = tw["conv_id"]
-        existing = thread_map.get(conv_id)
-
-        if existing and existing.get("msg_id"):
-            combined = build_thread_text([tw["text"]], existing["text"], footer)
-            if await edit_message(existing["msg_id"], combined):
-                existing["text"] = combined
-                existing["last_tweet_id"] = str(tw["id"])
-                thread_map[conv_id] = existing
-                state["total_sent"] = state.get("total_sent", 0) + 1
-                await asyncio.sleep(1.5)
+            if existing and existing.get("msg_id"):
+                # Edit existing thread message
+                combined = build_thread_text(
+                    existing.get("texts", []) + [tw["text"]],
+                    footer
+                )
+                if await edit_message(existing["msg_id"], combined):
+                    existing["texts"].append(tw["text"])
+                    existing["combined"] = combined
+                    existing["last_tweet_id"] = str(tw["id"])
+                    thread_map[conv_id] = existing
+                    state["total_sent"] = state.get("total_sent", 0) + 1
+                    tweet_to_msg[str(tw["id"])] = {
+                        "msg_id": existing["msg_id"],
+                        "conv_id": conv_id,
+                        "is_thread": True,
+                        "text": tw["text"]
+                    }
+                    await asyncio.sleep(1.5)
+                else:
+                    # Fallback: send new message
+                    combined = build_thread_text([tw["text"]], footer)
+                    msg_id = await send_message(combined)
+                    if msg_id:
+                        thread_map[conv_id] = {
+                            "msg_id": msg_id,
+                            "last_tweet_id": str(tw["id"]),
+                            "texts": [tw["text"]],
+                            "combined": combined,
+                        }
+                        state["total_sent"] = state.get("total_sent", 0) + 1
+                        tweet_to_msg[str(tw["id"])] = {
+                            "msg_id": msg_id,
+                            "conv_id": conv_id,
+                            "is_thread": True,
+                            "text": tw["text"]
+                        }
+                        await asyncio.sleep(1.5)
+                    else:
+                        print("❌ Failed to send, stopping")
+                        return
             else:
-                combined = build_thread_text([tw["text"]], "", footer)
-                msg_id = await send_message(combined)
+                # New standalone tweet or first tweet of a thread
+                msg_text = format_single(tw["text"])
+                msg_id = await send_message(msg_text)
                 if msg_id:
                     thread_map[conv_id] = {
                         "msg_id": msg_id,
                         "last_tweet_id": str(tw["id"]),
-                        "text": combined,
+                        "texts": [tw["text"]],
+                        "combined": msg_text,
                     }
                     state["total_sent"] = state.get("total_sent", 0) + 1
+                    tweet_to_msg[str(tw["id"])] = {
+                        "msg_id": msg_id,
+                        "conv_id": conv_id,
+                        "is_thread": False,   # maybe become thread later
+                        "text": tw["text"]
+                    }
                     await asyncio.sleep(1.5)
                 else:
                     print("❌ Failed to send, stopping")
                     return
-        else:
-            msg_text = format_single(tw["text"])
-            msg_id = await send_message(msg_text)
-            if msg_id:
-                thread_map[conv_id] = {
-                    "msg_id": msg_id,
-                    "last_tweet_id": str(tw["id"]),
-                    "text": msg_text,
-                }
-                state["total_sent"] = state.get("total_sent", 0) + 1
-                await asyncio.sleep(1.5)
-            else:
-                print("❌ Failed to send, stopping")
-                return
 
-        state["last_tweet_id"] = str(tw["id"])
-        recent_ids.add(str(tw["id"]))
+            state["last_tweet_id"] = str(tw["id"])
+            recent_ids.add(str(tw["id"]))
 
+    # Update state with new mappings
     state["thread_messages"] = thread_map
     state["recent_ids"] = list(recent_ids)
+    state["tweet_to_msg"] = tweet_to_msg
     save_state(state)
+
+    # After forwarding, check for deleted tweets
+    await check_deleted_tweets(state, thread_map)
+
     print(f"✅ Finished processing")
 
 if __name__ == "__main__":
