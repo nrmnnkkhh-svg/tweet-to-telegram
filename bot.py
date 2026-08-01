@@ -268,7 +268,7 @@ async def main():
     new_tweets = []
     for t in raw_tweets:
         tid = int(t.id)
-        if tid <= last_id or str(tid) in recent_ids:
+        if False and (tid <= last_id or str(tid) in recent_ids):
             print(f"⏭️  Skipping duplicate tweet {tid}")
             continue
         text = t.rawContent or ""
@@ -359,7 +359,7 @@ async def main():
     state["tweet_to_msg"] = tweet_to_msg
     save_state(state)
 
-    await check_deleted_tweets(state, thread_map)
+    #await check_deleted_tweets(state, thread_map)
     save_state(state)
     print("✅ Finished processing")
 
