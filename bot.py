@@ -13,8 +13,7 @@ BURNER_USERNAME = "nrmn_0000"
 
 SEPARATOR = "\n\n"
 MAX_RECENT_IDS = 500
-DELETION_CHECK_COUNT = 5        # how many old tweets to check per run
-DELETION_MIN_AGE = 300          # only check tweets older than 5 minutes (seconds)
+DELETION_CHECK_COUNT = 20          # check 20 tweets per run
 
 api = API()
 
@@ -28,7 +27,7 @@ def load_state():
             "recent_ids": [],
             "thread_messages": {},
             "total_sent": 0,
-            "tweet_to_msg": {}   # new: {tweet_id: {"msg_id": ..., "conv_id": ..., "is_thread": bool}}
+            "tweet_to_msg": {}
         }
     with open(STATE_FILE, "r") as f:
         state = json.load(f)
@@ -37,19 +36,15 @@ def load_state():
     state.setdefault("thread_messages", {})
     state.setdefault("total_sent", 0)
     state.setdefault("tweet_to_msg", {})
-    # Ensure thread_messages have the new "texts" list
     for conv_id, entry in state["thread_messages"].items():
         if "texts" not in entry:
-            # legacy: we don't have individual texts, so we can't reconstruct perfectly
-            # but we can still handle deletion by deleting the whole message if any tweet deleted
-            entry["texts"] = []   # empty list means we don't know
+            entry["texts"] = []
         if "combined" not in entry:
             entry["combined"] = entry.get("text", "")
     return state
 
 def save_state(state):
     state["recent_ids"] = state["recent_ids"][-MAX_RECENT_IDS:]
-    # Clean up tweet_to_msg to only keep recent_ids
     valid_ids = set(state["recent_ids"])
     state["tweet_to_msg"] = {tid: info for tid, info in state["tweet_to_msg"].items() if tid in valid_ids}
     with open(STATE_FILE, "w") as f:
@@ -148,7 +143,6 @@ def strip_footer(text: str, footer: str) -> str:
     return text
 
 def build_thread_text(texts: list[str], footer: str) -> str:
-    """Build a combined thread message from a list of individual tweet texts."""
     safe_texts = [t.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;") for t in texts]
     combined = SEPARATOR.join(safe_texts)
     if footer:
@@ -156,51 +150,38 @@ def build_thread_text(texts: list[str], footer: str) -> str:
     return combined
 
 # ------------------------------------------------------------
-#  Deletion check helper
+#  Deletion check – runs every invocation, independently
 # ------------------------------------------------------------
 async def check_deleted_tweets(state, thread_map):
-    """Check a few recent old tweets for deletion and clean up Telegram messages."""
     tweet_to_msg = state.get("tweet_to_msg", {})
     recent_ids = state.get("recent_ids", [])
     if not recent_ids:
         return
 
-    # We'll check tweets that are older than DELETION_MIN_AGE to avoid
-    # checking tweets that were just posted (which may still be indexed).
-    # We don't have exact timestamps, so we'll approximate by taking
-    # tweets that are towards the older end of the recent_ids list.
-    # recent_ids is kept in ascending order (oldest first, newest last)
-    # We'll pick the first few IDs that are not among the very last few.
-    # Actually, recent_ids is a list of the last 500 forwarded IDs, newest at the end.
-    # We'll take the earliest ones (index 0 to DELETION_CHECK_COUNT-1) because they
-    # are the oldest and most likely to have been deleted.
-    candidates = []
-    for tid in recent_ids:
-        info = tweet_to_msg.get(tid)
-        if info:
-            candidates.append(tid)
-            if len(candidates) >= DELETION_CHECK_COUNT:
-                break
-
+    # Build a list of candidates that have a Telegram mapping
+    candidates = [tid for tid in recent_ids if tid in tweet_to_msg]
     if not candidates:
         return
 
-    print(f"🔍 Checking {len(candidates)} old tweets for deletion...")
-    for tid in candidates:
+    # Check the most recent ones first (they are at the end of the list)
+    # recent_ids is oldest → newest; reverse to start with newest
+    newest_first = list(reversed(candidates))
+    to_check = newest_first[:DELETION_CHECK_COUNT]
+
+    print(f"🔍 Checking {len(to_check)} tweets for deletion (prioritising recent)...")
+    for tid in to_check:
         try:
-            # Use twscrape to get tweet details
             tweet = await api.tweet_details(tid)
             if tweet is None:
                 print(f"🗑️  Tweet {tid} not found / deleted")
                 await handle_deleted_tweet(tid, state, thread_map, tweet_to_msg)
             else:
-                print(f"✅ Tweet {tid} still exists")
+                pass  # still exists
         except Exception as e:
             print(f"⚠️ Error checking tweet {tid}: {e}")
-        await asyncio.sleep(1)  # small delay between API calls
+        await asyncio.sleep(1)  # rate limit protection
 
 async def handle_deleted_tweet(tid: str, state, thread_map, tweet_to_msg):
-    """Remove the Telegram message for a deleted tweet."""
     info = tweet_to_msg.get(tid)
     if not info:
         return
@@ -210,29 +191,19 @@ async def handle_deleted_tweet(tid: str, state, thread_map, tweet_to_msg):
     is_thread = info.get("is_thread", False)
 
     if not is_thread or not conv_id or conv_id not in thread_map:
-        # Standalone tweet – just delete the message
         await delete_message(msg_id)
-        # Remove from mappings
         del tweet_to_msg[tid]
         if tid in state["recent_ids"]:
             state["recent_ids"].remove(tid)
     else:
-        # Thread tweet – need to edit the thread message
         thread_entry = thread_map.get(conv_id)
         if not thread_entry:
             return
-        # Remove the deleted tweet text from the texts list
         deleted_text = info.get("text", "")
         texts = thread_entry.get("texts", [])
         if deleted_text in texts:
             texts.remove(deleted_text)
-        else:
-            # Try to find it (maybe the text changed slightly due to escaping)
-            # We'll just remove the stored text from the combined message
-            pass
-
         if not texts:
-            # All tweets in thread deleted – delete the whole message
             await delete_message(msg_id)
             del thread_map[conv_id]
             for t, inf in list(tweet_to_msg.items()):
@@ -241,18 +212,16 @@ async def handle_deleted_tweet(tid: str, state, thread_map, tweet_to_msg):
                     if t in state["recent_ids"]:
                         state["recent_ids"].remove(t)
         else:
-            # Rebuild combined text
             footer = get_footer()
             combined = build_thread_text(texts, footer)
             if await edit_message(msg_id, combined):
                 thread_entry["texts"] = texts
                 thread_entry["combined"] = combined
-                # Remove mapping for deleted tweet
                 del tweet_to_msg[tid]
                 if tid in state["recent_ids"]:
                     state["recent_ids"].remove(tid)
             else:
-                print(f"⚠️ Failed to edit thread message after deletion")
+                print(f"⚠️ Failed to edit thread after deletion")
 
 # ------------------------------------------------------------
 #  Main
@@ -282,9 +251,6 @@ async def main():
     except Exception as e:
         print(f"❌ Fetch failed: {e}"); return
 
-    if not raw_tweets:
-        print("⚠️ No tweets"); return
-
     state = load_state()
     last_id_raw = state.get("last_tweet_id")
     last_id = int(last_id_raw) if last_id_raw else 0
@@ -293,29 +259,26 @@ async def main():
     tweet_to_msg = state.get("tweet_to_msg", {})
     footer = get_footer()
 
+    # ── Process new tweets ────────────────────────────────
     new_tweets = []
-    for t in raw_tweets:
-        tid = int(t.id)
-        if tid <= last_id or str(tid) in recent_ids:
-            print(f"⏭️  Skipping duplicate tweet {tid}")
-            continue
-        text = t.rawContent or ""
-        if not text:
-            continue
-        conv_id = str(getattr(t, "conversationId", tid))
-        new_tweets.append({"id": tid, "text": text, "conv_id": conv_id})
+    if raw_tweets:
+        for t in raw_tweets:
+            tid = int(t.id)
+            if tid <= last_id or str(tid) in recent_ids:
+                print(f"⏭️  Skipping duplicate tweet {tid}")
+                continue
+            text = t.rawContent or ""
+            if not text:
+                continue
+            conv_id = str(getattr(t, "conversationId", tid))
+            new_tweets.append({"id": tid, "text": text, "conv_id": conv_id})
 
-    if not new_tweets:
-        print("✅ Nothing new"); 
-    else:
+    if new_tweets:
         new_tweets.sort(key=lambda x: x["id"])
-
         for tw in new_tweets:
             conv_id = tw["conv_id"]
             existing = thread_map.get(conv_id)
-
             if existing and existing.get("msg_id"):
-                # Edit existing thread message
                 combined = build_thread_text(
                     existing.get("texts", []) + [tw["text"]],
                     footer
@@ -334,7 +297,6 @@ async def main():
                     }
                     await asyncio.sleep(1.5)
                 else:
-                    # Fallback: send new message
                     combined = build_thread_text([tw["text"]], footer)
                     msg_id = await send_message(combined)
                     if msg_id:
@@ -356,7 +318,6 @@ async def main():
                         print("❌ Failed to send, stopping")
                         return
             else:
-                # New standalone tweet or first tweet of a thread
                 msg_text = format_single(tw["text"])
                 msg_id = await send_message(msg_text)
                 if msg_id:
@@ -370,7 +331,7 @@ async def main():
                     tweet_to_msg[str(tw["id"])] = {
                         "msg_id": msg_id,
                         "conv_id": conv_id,
-                        "is_thread": False,   # maybe become thread later
+                        "is_thread": False,
                         "text": tw["text"]
                     }
                     await asyncio.sleep(1.5)
@@ -381,15 +342,17 @@ async def main():
             state["last_tweet_id"] = str(tw["id"])
             recent_ids.add(str(tw["id"]))
 
-    # Update state with new mappings
+    # ── Always update state before deletion check ─────────
     state["thread_messages"] = thread_map
     state["recent_ids"] = list(recent_ids)
     state["tweet_to_msg"] = tweet_to_msg
     save_state(state)
 
-    # After forwarding, check for deleted tweets
+    # ── Run deletion check (always, even if no new tweets) ──
     await check_deleted_tweets(state, thread_map)
 
+    # Save again after possible deletions
+    save_state(state)
     print(f"✅ Finished processing")
 
 if __name__ == "__main__":
