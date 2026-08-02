@@ -1,17 +1,24 @@
+# ================== FEATURE FLAGS ==================
+FEATURE_THREAD_MERGE             = True
+FEATURE_AI_CLASSIFICATION        = False
+FEATURE_DELETION_CHECK           = False
+FEATURE_DUPLICATE_PREVENTION     = False
+FEATURE_PAUSE_MECHANISM          = False
+# ===================================================
+
 import asyncio, json, os, random, traceback
 import aiohttp
 from twscrape import API
 
 TWITTER_USER   = "IranIntlBrk"
-TELEGRAM_CHAT  = "@Intlbrk"
+TELEGRAM_CHAT  = "@CloneIntlbrk"
 TOKEN          = os.environ["TELEGRAM_BOT_TOKEN"]
-COOKIES        = os.environ["X_COOKIES"]
+COOKIES        = os.environ["X_COOKIES_CLONE"]
 STATE_FILE     = "state.json"
 TEMPLATE_FILE  = "template.txt"
 
-BURNER_USERNAME = "nrmn_0000"
-
-SEPARATOR = "\n\n"
+BURNER_USERNAME = "NRMNDIDI"
+SEPARATOR       = "\n\n"
 
 api = API()
 
@@ -85,11 +92,6 @@ async def edit_message(msg_id: int, new_text: str) -> bool:
             await asyncio.sleep(2 ** attempt + random.uniform(0, 2))
     return False
 
-def strip_footer(text: str, footer: str) -> str:
-    if footer and text.endswith(footer):
-        return text[:-len(footer)].rstrip()
-    return text
-
 def build_thread_text(texts: list[str], footer: str) -> str:
     safe_texts = [t.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;") for t in texts]
     combined = SEPARATOR.join(safe_texts)
@@ -99,6 +101,11 @@ def build_thread_text(texts: list[str], footer: str) -> str:
 
 async def main():
     print("🚀 Run started")
+
+    if FEATURE_PAUSE_MECHANISM and os.path.exists("paused.txt"):
+        print("⏸️  Bot is paused. Exiting.")
+        return
+
     try:
         await api.pool.add_account_cookies(BURNER_USERNAME, COOKIES)
         print("✅ Cookies loaded")
@@ -150,7 +157,7 @@ async def main():
             conv_id = tw["conv_id"]
             existing = thread_map.get(conv_id)
 
-            if existing and existing.get("msg_id"):
+            if FEATURE_THREAD_MERGE and existing and existing.get("msg_id"):
                 all_texts = existing["texts"] + [tw["text"]]
                 combined = build_thread_text(all_texts, footer)
                 if await edit_message(existing["msg_id"], combined):
@@ -161,14 +168,11 @@ async def main():
                     state["total_sent"] = state.get("total_sent", 0) + 1
                     await asyncio.sleep(1.5)
                 else:
-                    # Fallback: send new message
                     msg_id = await send_message(tw["text"], str(tw["id"]))
                     if msg_id:
                         thread_map[conv_id] = {
-                            "msg_id": msg_id,
-                            "last_tweet_id": str(tw["id"]),
-                            "texts": [tw["text"]],
-                            "combined": tw["text"],
+                            "msg_id": msg_id, "last_tweet_id": str(tw["id"]),
+                            "texts": [tw["text"]], "combined": tw["text"],
                         }
                         state["total_sent"] = state.get("total_sent", 0) + 1
                         await asyncio.sleep(1.5)
@@ -176,10 +180,8 @@ async def main():
                 msg_id = await send_message(tw["text"], str(tw["id"]))
                 if msg_id:
                     thread_map[conv_id] = {
-                        "msg_id": msg_id,
-                        "last_tweet_id": str(tw["id"]),
-                        "texts": [tw["text"]],
-                        "combined": tw["text"],
+                        "msg_id": msg_id, "last_tweet_id": str(tw["id"]),
+                        "texts": [tw["text"]], "combined": tw["text"],
                     }
                     state["total_sent"] = state.get("total_sent", 0) + 1
                     await asyncio.sleep(1.5)
