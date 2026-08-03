@@ -142,6 +142,7 @@ async def main():
     log = setup_logging()
     set_log_context("main")
     log.info("Run started")
+    log.info(f"Similarity dedup: {"ON" if FEATURE_SIMILARITY_DEDUP else "OFF"}")
 
     try:
         await api.pool.add_account_cookies(BURNER_USERNAME, COOKIES)
