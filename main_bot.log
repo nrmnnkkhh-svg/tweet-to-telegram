@@ -2647,3 +2647,42 @@
 2026-08-06T18:33:52Z | INFO     | process_tweet        | 2085429643029426398    | Sent tweet → msg 11637
 2026-08-06T18:33:54Z | INFO     | process_tweet        | 2085430192143479202    | Edited msg 11630
 2026-08-06T18:33:56Z | INFO     | process_tweet        | 2085430192143479202    | Run complete
+2026-08-06T22:30:53Z | INFO     | logger               | -                      | ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-08-06T22:30:53Z | INFO     | logger               | -                      | Logging started | instance='main' | file=main_bot.log | flag=True
+2026-08-06T22:30:53Z | INFO     | main                 | -                      | Run started
+2026-08-06T22:30:53Z | INFO     | main                 | -                      | Similarity dedup: ON
+2026-08-06T22:30:53Z | INFO     | main                 | -                      | Cookies loaded
+2026-08-06T22:30:53Z | INFO     | main                 | -                      | User ID: 1005185803172106241
+2026-08-06T22:30:54Z | INFO     | main                 | -                      | Fetched 30 tweets
+2026-08-06T22:30:54Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2085430192143479202
+2026-08-06T22:30:54Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2085429643029426398
+2026-08-06T22:30:54Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2085428098871206021
+2026-08-06T22:30:54Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2085426690340032673
+2026-08-06T22:30:54Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2085420501992665459
+2026-08-06T22:30:54Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2085418312251347311
+2026-08-06T22:30:54Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2085417118397337924
+2026-08-06T22:30:55Z | INFO     | process_tweet        | 2085434228930478307    | Sent tweet → msg 11654
+2026-08-06T22:30:56Z | INFO     | process_tweet        | 2085434810755932435    | Sent tweet → msg 11655
+2026-08-06T22:30:58Z | INFO     | process_tweet        | 2085434913369493568    | Sent tweet → msg 11656
+2026-08-06T22:31:00Z | INFO     | process_tweet        | 2085438716823167136    | Sent tweet → msg 11657
+2026-08-06T22:31:02Z | INFO     | process_tweet        | 2085443235065876963    | Sent tweet → msg 11658
+2026-08-06T22:31:04Z | INFO     | process_tweet        | 2085444769493155949    | Edited msg 11656
+2026-08-06T22:31:06Z | INFO     | process_tweet        | 2085446654899998986    | Sent tweet → msg 11659
+2026-08-06T22:31:08Z | INFO     | process_tweet        | 2085447009037619668    | Edited msg 11656
+2026-08-06T22:31:10Z | INFO     | process_tweet        | 2085449639906443358    | Sent tweet → msg 11660
+2026-08-06T22:31:11Z | INFO     | process_tweet        | 2085451509395796277    | Sent tweet → msg 11661
+2026-08-06T22:31:13Z | INFO     | process_tweet        | 2085458398796030045    | Sent tweet → msg 11662
+2026-08-06T22:31:15Z | INFO     | process_tweet        | 2085460831416762403    | Sent tweet → msg 11663
+2026-08-06T22:31:17Z | INFO     | process_tweet        | 2085464261304668512    | Sent tweet → msg 11664
+2026-08-06T22:31:19Z | INFO     | process_tweet        | 2085464957164884068    | Sent tweet → msg 11665
+2026-08-06T22:31:21Z | INFO     | process_tweet        | 2085465838346252693    | Edited msg 11665
+2026-08-06T22:31:23Z | INFO     | process_tweet        | 2085468090100318710    | Edited msg 11665
+2026-08-06T22:31:24Z | INFO     | process_tweet        | 2085468900049743975    | Sent tweet → msg 11666
+2026-08-06T22:31:26Z | INFO     | process_tweet        | 2085472064018768062    | Edited msg 11666
+2026-08-06T22:31:28Z | INFO     | process_tweet        | 2085472371578638546    | Edited msg 11666
+2026-08-06T22:31:30Z | INFO     | process_tweet        | 2085476881395011822    | Sent tweet → msg 11667
+2026-08-06T22:31:32Z | WARNING  | process_tweet        | 2085477010185355400    | Rate limited. Waiting 23s
+2026-08-06T22:31:57Z | INFO     | process_tweet        | 2085477010185355400    | Edited msg 11667
+2026-08-06T22:31:59Z | INFO     | process_tweet        | 2085478887211835591    | Sent tweet → msg 11668
+2026-08-06T22:32:01Z | INFO     | process_tweet        | 2085479257258553364    | Edited msg 11667
+2026-08-06T22:32:02Z | INFO     | process_tweet        | 2085479257258553364    | Run complete
