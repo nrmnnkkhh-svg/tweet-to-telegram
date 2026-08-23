@@ -15,3 +15,14 @@
 2026-08-23T06:30:41Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2091314293715116180
 2026-08-23T06:30:41Z | INFO     | main                 | -                      | No new tweets
 2026-08-23T06:30:41Z | INFO     | main                 | -                      | Run complete
+2026-08-23T06:35:26Z | INFO     | logger               | -                      | ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-08-23T06:35:26Z | INFO     | logger               | -                      | Logging started | instance='main' | file=main_bot.log | flag=True
+2026-08-23T06:35:26Z | INFO     | main                 | -                      | Run started
+2026-08-23T06:35:26Z | INFO     | main                 | -                      | Similarity dedup: ON
+2026-08-23T06:35:26Z | INFO     | main                 | -                      | Cookies loaded
+2026-08-23T06:35:26Z | ERROR    | main                 | -                      | Fetch failed
+Traceback (most recent call last):
+  File "/home/runner/work/tweet-to-telegram/tweet-to-telegram/bot.py", line 154, in main
+    user_id = user.id
+              ^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'id'
