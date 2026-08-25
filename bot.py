@@ -1,4 +1,4 @@
-import asyncio, json, os, traceback
+import asyncio, json, os, traceback, uuid
 from difflib import SequenceMatcher
 import aiohttp
 from twikit import Client
@@ -140,12 +140,24 @@ async def main():
         client = Client(language="en-US")
         client.set_cookies(cookies)
 
-        # ── PATCH: bypass broken x-client-transaction-id init ──
+        # ── PATCHES for broken x-client-transaction-id ──
         async def noop_transaction_init(http, ct_headers):
-            log.warning("Bypassing x-client-transaction-id init (X changed script)")
+            log.warning("Bypassing x-client-transaction-id init")
             return
+
+        def fake_generate_transaction_id(method="GET", path="/"):
+            tid = "00000000000000000000000000000000"
+            log.debug(f"Using dummy transaction id for {method} {path}")
+            return tid
+
         client.client_transaction.init = noop_transaction_init
-        # ────────────────────────────────────────────────────────
+        client.client_transaction.generate_transaction_id = fake_generate_transaction_id
+        if not hasattr(client.client_transaction, "key"):
+            try:
+                client.client_transaction.key = ""
+            except Exception:
+                pass
+        # ────────────────────────────────────────────────────
 
         log.info("Twikit client cookies set")
 
