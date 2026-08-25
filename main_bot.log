@@ -2704,3 +2704,15 @@ Traceback (most recent call last):
     self.description_urls: list = legacy['entities']['description']['urls']
                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
 KeyError: 'urls'
+2026-08-25T17:10:13Z | INFO     | logger               | -                      | ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-08-25T17:10:13Z | INFO     | logger               | -                      | Logging started | instance='main' | file=main_bot.log | flag=True
+2026-08-25T17:10:13Z | INFO     | main                 | -                      | Run started
+2026-08-25T17:10:13Z | INFO     | main                 | -                      | Twikit client cookies set
+2026-08-25T17:10:13Z | WARNING  | main                 | -                      | Bypassing x-client-transaction-id init
+2026-08-25T17:10:13Z | DEBUG    | main                 | -                      | Using dummy transaction id for GET /i/api/graphql/NimuplG1OB7Fd2btCLdBOw/UserByScreenName
+2026-08-25T17:10:13Z | INFO     | main                 | -                      | User ID: 1005185803172106241
+2026-08-25T17:10:14Z | ERROR    | main                 | -                      | Fetch failed
+Traceback (most recent call last):
+  File "/home/runner/work/tweet-to-telegram/tweet-to-telegram/bot.py", line 179, in main
+    async for tweet in client.get_user_tweets(user_id, "Tweets", count=30):
+TypeError: 'async for' requires an object with __aiter__ method, got coroutine
