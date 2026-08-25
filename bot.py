@@ -1,4 +1,4 @@
-import asyncio, json, os, random, traceback
+import asyncio, json, os, traceback
 from difflib import SequenceMatcher
 import aiohttp
 from twikit import Client
@@ -137,16 +137,16 @@ async def main():
 
     try:
         cookies = parse_cookies(COOKIES_STR)
-        client = Client()
-        await client.login(cookies=cookies)
-        log.info("Twikit client logged in")
+        client = Client(language="en-US")
+        client.set_cookies(cookies)
+        log.info("Twikit client cookies set")
 
         user = await client.get_user_by_screen_name(TWITTER_USER)
         user_id = user.id
         log.info(f"User ID: {user_id}")
 
         tweets = []
-        async for tweet in client.get_user_tweets(user_id, count=30, tweet_type='Tweets'):
+        async for tweet in client.get_user_tweets(user_id, "Tweets", count=30):
             tweets.append(tweet)
         log.info(f"Fetched {len(tweets)} tweets")
     except Exception as e:
