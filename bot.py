@@ -175,9 +175,7 @@ async def main():
 
         log.info(f"User ID: {user_id}")
 
-        tweets = []
-        async for tweet in client.get_user_tweets(user_id, "Tweets", count=30):
-            tweets.append(tweet)
+        tweets = await client.get_user_tweets(user_id, "Tweets", count=30)
 
         log.info(f"Fetched {len(tweets)} tweets")
     except Exception as e:
