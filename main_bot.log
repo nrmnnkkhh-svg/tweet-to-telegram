@@ -1490,3 +1490,8 @@ Traceback (most recent call last):
     user_id = user.id
               ^^^^^^^
 AttributeError: 'NoneType' object has no attribute 'id'
+2026-08-25T12:10:53Z | INFO     | logger               | -                      | ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-08-25T12:10:53Z | INFO     | logger               | -                      | Logging started | instance='main' | file=main_bot.log | flag=True
+2026-08-25T12:10:53Z | INFO     | main                 | -                      | Run started
+2026-08-25T12:10:53Z | INFO     | main                 | -                      | Similarity dedup: ON
+2026-08-25T12:10:53Z | INFO     | main                 | -                      | Cookies loaded
