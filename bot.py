@@ -1,4 +1,4 @@
-import asyncio, json, os, traceback, uuid
+import asyncio, json, os, traceback
 from difflib import SequenceMatcher
 import aiohttp
 from twikit import Client
@@ -140,15 +140,14 @@ async def main():
         client = Client(language="en-US")
         client.set_cookies(cookies)
 
-        # ── PATCHES for broken x-client-transaction-id ──
+        # Bypass broken x-client-transaction-id init
         async def noop_transaction_init(http, ct_headers):
             log.warning("Bypassing x-client-transaction-id init")
             return
 
         def fake_generate_transaction_id(method="GET", path="/"):
-            tid = "00000000000000000000000000000000"
             log.debug(f"Using dummy transaction id for {method} {path}")
-            return tid
+            return "00000000000000000000000000000000"
 
         client.client_transaction.init = noop_transaction_init
         client.client_transaction.generate_transaction_id = fake_generate_transaction_id
@@ -157,17 +156,29 @@ async def main():
                 client.client_transaction.key = ""
             except Exception:
                 pass
-        # ────────────────────────────────────────────────────
 
         log.info("Twikit client cookies set")
 
-        user = await client.get_user_by_screen_name(TWITTER_USER)
-        user_id = user.id
+        # NEW: bypass broken User object parser.
+        # We call the raw GraphQL endpoint and extract only the numeric user ID.
+        raw_response, _ = await client.gql.user_by_screen_name(TWITTER_USER)
+        user_data = raw_response.get("data", {}).get("user", {}).get("result", {})
+
+        user_id = (
+            user_data.get("rest_id")
+            or user_data.get("id_str")
+            or str(user_data.get("id", ""))
+        )
+
+        if not user_id:
+            raise Exception(f"Could not find user ID in response: {json.dumps(raw_response)[:300]}")
+
         log.info(f"User ID: {user_id}")
 
         tweets = []
         async for tweet in client.get_user_tweets(user_id, "Tweets", count=30):
             tweets.append(tweet)
+
         log.info(f"Fetched {len(tweets)} tweets")
     except Exception as e:
         log_exception(log, e, "Fetch failed")
