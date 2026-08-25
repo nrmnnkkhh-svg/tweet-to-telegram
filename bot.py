@@ -1,16 +1,7 @@
-# ================== FEATURE FLAGS ==================
-FEATURE_THREAD_MERGE             = True
-FEATURE_AI_CLASSIFICATION        = False
-FEATURE_DELETION_CHECK           = False
-FEATURE_DUPLICATE_PREVENTION     = False
-FEATURE_PAUSE_MECHANISM          = False
-FEATURE_SIMILARITY_DEDUP         = True
-# ===================================================
-
 import asyncio, json, os, random, traceback
 from difflib import SequenceMatcher
 import aiohttp
-from twscrape import API
+from twikit import Client
 
 from logger import (
     setup_logging, get_logger, set_log_context, log_exception, flush_and_stop
@@ -19,14 +10,11 @@ from logger import (
 TWITTER_USER   = "IranIntlBrk"
 TELEGRAM_CHAT  = "@Intlbrk"
 TOKEN          = os.environ["TELEGRAM_BOT_TOKEN"]
-COOKIES        = os.environ["X_COOKIES"]
+COOKIES_STR    = os.environ["X_COOKIES"]
 STATE_FILE     = "state.json"
 TEMPLATE_FILE  = "template.txt"
 
-BURNER_USERNAME = "nrmn_0000"
-SEPARATOR       = "\n\n"
-
-api = API()
+SEPARATOR = "\n\n"
 
 def load_state():
     if not os.path.exists(STATE_FILE):
@@ -47,12 +35,18 @@ def load_template():
         return f.read().strip()
 
 def get_footer():
-    template = load_template()
-    return template.replace("{text}", "").strip()
+    return load_template().replace("{text}", "").strip()
 
-def is_similar(text1: str, text2: str, threshold: float = 0.7) -> bool:
-    """Return True if text1 and text2 are at least `threshold` similar."""
-    return SequenceMatcher(None, text1, text2).ratio() >= threshold
+def parse_cookies(cookie_string: str) -> dict:
+    cookies = {}
+    for part in cookie_string.split(";"):
+        if "=" in part:
+            k, v = part.strip().split("=", 1)
+            cookies[k] = v
+    return cookies
+
+def is_similar(a: str, b: str, threshold=0.7) -> bool:
+    return SequenceMatcher(None, a, b).ratio() >= threshold
 
 async def send_message(text: str, tweet_id: str) -> int | None:
     log = get_logger("send_message")
@@ -67,20 +61,18 @@ async def send_message(text: str, tweet_id: str) -> int | None:
                 async with sess.post(url, json=payload) as resp:
                     data = await resp.json()
                     if data.get("ok"):
-                        msg_id = data["result"]["message_id"]
-                        log.info(f"Sent tweet → msg {msg_id}")
-                        return msg_id
+                        log.info(f"Sent tweet → msg {data['result']['message_id']}")
+                        return data["result"]["message_id"]
                     if data.get("error_code") == 429:
                         wait = data.get("parameters", {}).get("retry_after", 10)
-                        log.warning(f"Rate limited. Waiting {wait}s (attempt {attempt+1}/5)")
+                        log.warning(f"Rate limited. Waiting {wait}s")
                         await asyncio.sleep(wait + 2)
                         continue
-                    log.error(f"Telegram API rejected: {data}")
+                    log.error(f"Telegram API error: {data}")
                     return None
         except Exception as exc:
-            log_exception(log, exc, f"Telegram network error (attempt {attempt+1})")
-            await asyncio.sleep(2 ** attempt + random.uniform(0, 2))
-    log.error("Failed to send after 5 attempts")
+            log_exception(log, exc, f"Telegram send error (attempt {attempt+1})")
+            await asyncio.sleep(2 ** attempt)
     return None
 
 async def edit_message(msg_id: int, new_text: str) -> bool:
@@ -97,14 +89,14 @@ async def edit_message(msg_id: int, new_text: str) -> bool:
                         return True
                     if data.get("error_code") == 429:
                         wait = data.get("parameters", {}).get("retry_after", 10)
-                        log.warning(f"Rate limited. Waiting {wait}s")
+                        log.warning(f"Edit rate limited. Waiting {wait}s")
                         await asyncio.sleep(wait + 2)
                         continue
-                    log.error(f"Edit rejected: {data}")
+                    log.error(f"Edit error: {data}")
                     return False
         except Exception as exc:
             log_exception(log, exc, f"Edit error (attempt {attempt+1})")
-            await asyncio.sleep(2 ** attempt + random.uniform(0, 2))
+            await asyncio.sleep(2 ** attempt)
     return False
 
 async def delete_message(msg_id: int) -> bool:
@@ -142,33 +134,26 @@ async def main():
     log = setup_logging()
     set_log_context("main")
     log.info("Run started")
-    log.info("Similarity dedup: " + ("ON" if FEATURE_SIMILARITY_DEDUP else "OFF"))
 
     try:
-        await api.pool.add_account_cookies(BURNER_USERNAME, COOKIES)
-        log.info("Cookies loaded")
-        acc = await api.pool.get_account(BURNER_USERNAME)
-        if not acc.active:
-            log.error("Account not active"); return
-        user = await api.user_by_login(TWITTER_USER)
+        cookies = parse_cookies(COOKIES_STR)
+        client = Client()
+        await client.login(cookies=cookies)
+        log.info("Twikit client logged in")
+
+        user = await client.get_user_by_screen_name(TWITTER_USER)
         user_id = user.id
         log.info(f"User ID: {user_id}")
 
-        raw_tweets = []
-        seen = set()
-        async for t in api.user_tweets(user_id, limit=30):
-            if t.id not in seen:
-                seen.add(t.id)
-                raw_tweets.append(t)
-                if len(raw_tweets) >= 30:
-                    break
-        raw_tweets.sort(key=lambda t: t.id, reverse=True)
-        log.info(f"Fetched {len(raw_tweets)} tweets")
+        tweets = []
+        async for tweet in client.get_user_tweets(user_id, count=30, tweet_type='Tweets'):
+            tweets.append(tweet)
+        log.info(f"Fetched {len(tweets)} tweets")
     except Exception as e:
         log_exception(log, e, "Fetch failed")
         return
 
-    if not raw_tweets:
+    if not tweets:
         log.info("No tweets"); return
 
     state = load_state()
@@ -177,15 +162,15 @@ async def main():
     footer = get_footer()
 
     new_tweets = []
-    for t in raw_tweets:
+    for t in tweets:
         tid = int(t.id)
         if tid <= last_id:
             log.debug(f"Skipping duplicate tweet {tid}")
             continue
-        text = t.rawContent or ""
+        text = getattr(t, "text", "") or ""
         if not text:
             continue
-        conv_id = str(getattr(t, "conversationId", tid))
+        conv_id = str(getattr(t, "conversation_id", tid))
         new_tweets.append({"id": tid, "text": text, "conv_id": conv_id})
 
     if not new_tweets:
@@ -197,19 +182,15 @@ async def main():
             existing = thread_map.get(conv_id)
             set_log_context(section="process_tweet", tweet_id=str(tw["id"]))
 
-            # ── Similarity dedup check ─────────────────────────
-            if FEATURE_SIMILARITY_DEDUP and existing and existing.get("msg_id"):
-                last_text_in_thread = existing["texts"][-1] if existing["texts"] else ""
-                if last_text_in_thread and is_similar(tw["text"], last_text_in_thread):
-                    log.info(f"Similarity dedup triggered – deleting old msg {existing['msg_id']} and sending new tweet")
+            if existing and existing.get("msg_id"):
+                last_text = existing["texts"][-1] if existing["texts"] else ""
+                if last_text and is_similar(tw["text"], last_text):
+                    log.info("Similarity dedup triggered – deleting old msg")
                     if await delete_message(existing["msg_id"]):
                         del thread_map[conv_id]
                         existing = None
-                    else:
-                        log.error("Failed to delete old message – keeping both")
 
-            # ── Thread merge or send new ───────────────────────
-            if FEATURE_THREAD_MERGE and existing and existing.get("msg_id"):
+            if existing and existing.get("msg_id"):
                 all_texts = existing["texts"] + [tw["text"]]
                 combined = build_thread_text(all_texts, footer)
                 if await edit_message(existing["msg_id"], combined):
@@ -218,40 +199,35 @@ async def main():
                     existing["last_tweet_id"] = str(tw["id"])
                     thread_map[conv_id] = existing
                     state["total_sent"] = state.get("total_sent", 0) + 1
-                    await asyncio.sleep(1.5)
                 else:
                     msg_id = await send_message(tw["text"], str(tw["id"]))
                     if msg_id:
                         thread_map[conv_id] = {
-                            "msg_id": msg_id, "last_tweet_id": str(tw["id"]),
-                            "texts": [tw["text"]], "combined": tw["text"],
+                            "msg_id": msg_id,
+                            "last_tweet_id": str(tw["id"]),
+                            "texts": [tw["text"]],
+                            "combined": tw["text"],
                         }
                         state["total_sent"] = state.get("total_sent", 0) + 1
-                        await asyncio.sleep(1.5)
             else:
                 msg_id = await send_message(tw["text"], str(tw["id"]))
                 if msg_id:
                     thread_map[conv_id] = {
-                        "msg_id": msg_id, "last_tweet_id": str(tw["id"]),
-                        "texts": [tw["text"]], "combined": tw["text"],
+                        "msg_id": msg_id,
+                        "last_tweet_id": str(tw["id"]),
+                        "texts": [tw["text"]],
+                        "combined": tw["text"],
                     }
                     state["total_sent"] = state.get("total_sent", 0) + 1
-                    await asyncio.sleep(1.5)
-                else:
-                    log.error("Failed to send tweet, stopping")
-                    return
 
             state["last_tweet_id"] = str(tw["id"])
             save_state(state)
+            await asyncio.sleep(1.5)
 
     state["thread_messages"] = thread_map
     save_state(state)
     log.info("Run complete")
-
-    try:
-        pass
-    finally:
-        flush_and_stop()
+    flush_and_stop()
 
 if __name__ == "__main__":
     asyncio.run(main())

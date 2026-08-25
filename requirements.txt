@@ -1,2 +1,2 @@
-twscrape[curl] @ git+https://github.com/vladkens/twscrape.git
+twikit>=2.0
 aiohttp>=3.9
