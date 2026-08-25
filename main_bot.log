@@ -1790,3 +1790,32 @@ Traceback (most recent call last):
   File "/opt/hostedtoolcache/Python/3.11.16/x64/lib/python3.11/site-packages/twikit/x_client_transaction/transaction.py", line 54, in get_indices
     raise Exception("Couldn't get KEY_BYTE indices")
 Exception: Couldn't get KEY_BYTE indices
+2026-08-25T14:45:40Z | INFO     | logger               | -                      | ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-08-25T14:45:40Z | INFO     | logger               | -                      | Logging started | instance='main' | file=main_bot.log | flag=True
+2026-08-25T14:45:40Z | INFO     | main                 | -                      | Run started
+2026-08-25T14:45:40Z | INFO     | main                 | -                      | Twikit client cookies set
+2026-08-25T14:45:40Z | ERROR    | main                 | -                      | Fetch failed
+Traceback (most recent call last):
+  File "/home/runner/work/tweet-to-telegram/tweet-to-telegram/bot.py", line 144, in main
+    user = await client.get_user_by_screen_name(TWITTER_USER)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.16/x64/lib/python3.11/site-packages/twikit/client/client.py", line 1394, in get_user_by_screen_name
+    response, _ = await self.gql.user_by_screen_name(screen_name)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.16/x64/lib/python3.11/site-packages/twikit/client/gql.py", line 253, in user_by_screen_name
+    return await self.gql_get(Endpoint.USER_BY_SCREEN_NAME, variables, USER_FEATURES, extra_params=params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.16/x64/lib/python3.11/site-packages/twikit/client/gql.py", line 124, in gql_get
+    return await self.base.get(url, params=flatten_params(params), headers=headers, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.16/x64/lib/python3.11/site-packages/twikit/client/client.py", line 211, in get
+    return await self.request('GET', url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.16/x64/lib/python3.11/site-packages/twikit/client/client.py", line 142, in request
+    await self.client_transaction.init(self.http, ct_headers)
+  File "/opt/hostedtoolcache/Python/3.11.16/x64/lib/python3.11/site-packages/twikit/x_client_transaction/transaction.py", line 34, in init
+    self.DEFAULT_ROW_INDEX, self.DEFAULT_KEY_BYTES_INDICES = await self.get_indices(
+                                                             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.16/x64/lib/python3.11/site-packages/twikit/x_client_transaction/transaction.py", line 54, in get_indices
+    raise Exception("Couldn't get KEY_BYTE indices")
+Exception: Couldn't get KEY_BYTE indices
