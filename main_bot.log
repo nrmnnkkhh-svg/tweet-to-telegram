@@ -2728,3 +2728,27 @@ Traceback (most recent call last):
   File "/home/runner/work/tweet-to-telegram/tweet-to-telegram/bot.py", line 179, in main
     async for tweet in client.get_user_tweets(user_id, "Tweets", count=30):
 TypeError: 'async for' requires an object with __aiter__ method, got coroutine
+2026-08-25T17:12:50Z | INFO     | logger               | -                      | ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-08-25T17:12:50Z | INFO     | logger               | -                      | Logging started | instance='main' | file=main_bot.log | flag=True
+2026-08-25T17:12:50Z | INFO     | main                 | -                      | Run started
+2026-08-25T17:12:50Z | INFO     | main                 | -                      | Twikit client cookies set
+2026-08-25T17:12:50Z | WARNING  | main                 | -                      | Bypassing x-client-transaction-id init
+2026-08-25T17:12:50Z | DEBUG    | main                 | -                      | Using dummy transaction id for GET /i/api/graphql/NimuplG1OB7Fd2btCLdBOw/UserByScreenName
+2026-08-25T17:12:50Z | INFO     | main                 | -                      | User ID: 1005185803172106241
+2026-08-25T17:12:50Z | WARNING  | main                 | -                      | Bypassing x-client-transaction-id init
+2026-08-25T17:12:50Z | DEBUG    | main                 | -                      | Using dummy transaction id for GET /i/api/graphql/QWF3SzpHmykQHsQMixG0cg/UserTweets
+2026-08-25T17:12:50Z | ERROR    | main                 | -                      | Fetch failed
+Traceback (most recent call last):
+  File "/home/runner/work/tweet-to-telegram/tweet-to-telegram/bot.py", line 178, in main
+    tweets = await client.get_user_tweets(user_id, "Tweets", count=30)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.16/x64/lib/python3.11/site-packages/twikit/client/client.py", line 1947, in get_user_tweets
+    tweet = tweet_from_data(self, item)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.16/x64/lib/python3.11/site-packages/twikit/tweet.py", line 582, in tweet_from_data
+    return Tweet(client, tweet_data, User(client, user_data))
+                                     ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.16/x64/lib/python3.11/site-packages/twikit/user.py", line 102, in __init__
+    self.description_urls: list = legacy['entities']['description']['urls']
+                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+KeyError: 'urls'
