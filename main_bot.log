@@ -1667,3 +1667,12 @@ Traceback (most recent call last):
     await client.login(cookies=cookies)
           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 TypeError: Client.login() got an unexpected keyword argument 'cookies'
+2026-08-25T14:20:41Z | INFO     | logger               | -                      | ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-08-25T14:20:41Z | INFO     | logger               | -                      | Logging started | instance='main' | file=main_bot.log | flag=True
+2026-08-25T14:20:41Z | INFO     | main                 | -                      | Run started
+2026-08-25T14:20:41Z | ERROR    | main                 | -                      | Fetch failed
+Traceback (most recent call last):
+  File "/home/runner/work/tweet-to-telegram/tweet-to-telegram/bot.py", line 141, in main
+    await client.login(cookies=cookies)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Client.login() got an unexpected keyword argument 'cookies'
