@@ -172,7 +172,7 @@ async def main():
         log.info(f"User ID: {user_id}")
 
         # Raw tweet fetch — bypasses Twikit's broken User parser
-        raw_tweets_response, _ = await client.gql.user_tweets(user_id, count=30)
+        raw_tweets_response, _ = await client.gql.user_tweets(user_id, cursor=None, count=30)
 
         tweets = []
         instructions = (
