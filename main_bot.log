@@ -3298,3 +3298,27 @@ TypeError: GQLClient.user_tweets() missing 1 required positional argument: 'curs
 2026-08-25T19:20:46Z | INFO     | process_tweet        | 2092330490694897988    | Sent tweet → msg 14311
 2026-08-25T19:20:48Z | INFO     | process_tweet        | 2092331071576633842    | Sent tweet → msg 14312
 2026-08-25T19:20:49Z | INFO     | process_tweet        | 2092331071576633842    | Run complete
+2026-08-25T19:25:31Z | INFO     | logger               | -                      | ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-08-25T19:25:31Z | INFO     | logger               | -                      | Logging started | instance='main' | file=main_bot.log | flag=True
+2026-08-25T19:25:31Z | INFO     | main                 | -                      | Run started
+2026-08-25T19:25:31Z | INFO     | main                 | -                      | Twikit client cookies set
+2026-08-25T19:25:31Z | WARNING  | main                 | -                      | Bypassing x-client-transaction-id init
+2026-08-25T19:25:31Z | DEBUG    | main                 | -                      | Using dummy transaction id for GET /i/api/graphql/NimuplG1OB7Fd2btCLdBOw/UserByScreenName
+2026-08-25T19:25:31Z | INFO     | main                 | -                      | User ID: 1005185803172106241
+2026-08-25T19:25:31Z | WARNING  | main                 | -                      | Bypassing x-client-transaction-id init
+2026-08-25T19:25:31Z | DEBUG    | main                 | -                      | Using dummy transaction id for GET /i/api/graphql/QWF3SzpHmykQHsQMixG0cg/UserTweets
+2026-08-25T19:25:31Z | INFO     | main                 | -                      | Fetched 12 tweets
+2026-08-25T19:25:31Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2092331071576633842
+2026-08-25T19:25:31Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2092330490694897988
+2026-08-25T19:25:31Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2092330441113993454
+2026-08-25T19:25:31Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2092328135089926557
+2026-08-25T19:25:31Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2092327222900097243
+2026-08-25T19:25:31Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2092319750177083681
+2026-08-25T19:25:31Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2092317597412839605
+2026-08-25T19:25:31Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2092316574216581319
+2026-08-25T19:25:31Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2092311550430154861
+2026-08-25T19:25:31Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2092309419765760435
+2026-08-25T19:25:31Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2092305328150901103
+2026-08-25T19:25:31Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2092304816085041419
+2026-08-25T19:25:31Z | INFO     | main                 | -                      | No new tweets
+2026-08-25T19:25:31Z | INFO     | main                 | -                      | Run complete
