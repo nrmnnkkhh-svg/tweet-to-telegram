@@ -159,23 +159,53 @@ async def main():
 
         log.info("Twikit client cookies set")
 
-        # NEW: bypass broken User object parser.
-        # We call the raw GraphQL endpoint and extract only the numeric user ID.
-        raw_response, _ = await client.gql.user_by_screen_name(TWITTER_USER)
-        user_data = raw_response.get("data", {}).get("user", {}).get("result", {})
-
+        # Raw user lookup
+        raw_user_response, _ = await client.gql.user_by_screen_name(TWITTER_USER)
+        user_data = raw_user_response.get("data", {}).get("user", {}).get("result", {})
         user_id = (
             user_data.get("rest_id")
             or user_data.get("id_str")
             or str(user_data.get("id", ""))
         )
-
         if not user_id:
-            raise Exception(f"Could not find user ID in response: {json.dumps(raw_response)[:300]}")
-
+            raise Exception(f"Could not find user ID: {json.dumps(raw_user_response)[:300]}")
         log.info(f"User ID: {user_id}")
 
-        tweets = await client.get_user_tweets(user_id, "Tweets", count=30)
+        # Raw tweet fetch — bypasses Twikit's broken User parser
+        raw_tweets_response, _ = await client.gql.user_tweets(user_id, count=30)
+
+        tweets = []
+        instructions = (
+            raw_tweets_response.get("data", {})
+            .get("user", {})
+            .get("result", {})
+            .get("timeline_v2", {})
+            .get("timeline", {})
+            .get("instructions", [])
+        )
+
+        for instruction in instructions:
+            if instruction.get("type") != "TimelineAddEntries":
+                continue
+            for entry in instruction.get("entries", []):
+                tweet_result = (
+                    entry.get("content", {})
+                    .get("itemContent", {})
+                    .get("tweet_results", {})
+                    .get("result", {})
+                )
+                if not tweet_result:
+                    continue
+                tid = tweet_result.get("rest_id")
+                legacy = tweet_result.get("legacy", {})
+                text = legacy.get("full_text", "")
+                conv_id = str(legacy.get("conversation_id_str") or tid)
+                if tid and text:
+                    tweets.append({
+                        "id": int(tid),
+                        "text": text,
+                        "conv_id": conv_id,
+                    })
 
         log.info(f"Fetched {len(tweets)} tweets")
     except Exception as e:
@@ -192,15 +222,11 @@ async def main():
 
     new_tweets = []
     for t in tweets:
-        tid = int(t.id)
+        tid = int(t["id"])
         if tid <= last_id:
             log.debug(f"Skipping duplicate tweet {tid}")
             continue
-        text = getattr(t, "text", "") or ""
-        if not text:
-            continue
-        conv_id = str(getattr(t, "conversation_id", tid))
-        new_tweets.append({"id": tid, "text": text, "conv_id": conv_id})
+        new_tweets.append(t)
 
     if not new_tweets:
         log.info("No new tweets")
