@@ -139,6 +139,14 @@ async def main():
         cookies = parse_cookies(COOKIES_STR)
         client = Client(language="en-US")
         client.set_cookies(cookies)
+
+        # ── PATCH: bypass broken x-client-transaction-id init ──
+        async def noop_transaction_init(http, ct_headers):
+            log.warning("Bypassing x-client-transaction-id init (X changed script)")
+            return
+        client.client_transaction.init = noop_transaction_init
+        # ────────────────────────────────────────────────────────
+
         log.info("Twikit client cookies set")
 
         user = await client.get_user_by_screen_name(TWITTER_USER)
