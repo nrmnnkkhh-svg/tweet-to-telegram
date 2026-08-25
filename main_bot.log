@@ -2659,3 +2659,30 @@ Traceback (most recent call last):
     raise Unauthorized(message, headers=response.headers)
 twikit.errors.Unauthorized: status: 401, message: "{"errors":[{"message":"Could not authenticate you","code":32}]}
 "
+2026-08-25T17:05:32Z | INFO     | logger               | -                      | ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-08-25T17:05:32Z | INFO     | logger               | -                      | Logging started | instance='main' | file=main_bot.log | flag=True
+2026-08-25T17:05:32Z | INFO     | main                 | -                      | Run started
+2026-08-25T17:05:32Z | INFO     | main                 | -                      | Twikit client cookies set
+2026-08-25T17:05:32Z | WARNING  | main                 | -                      | Bypassing x-client-transaction-id init
+2026-08-25T17:05:32Z | DEBUG    | main                 | -                      | Using dummy transaction id for GET /i/api/graphql/NimuplG1OB7Fd2btCLdBOw/UserByScreenName
+2026-08-25T17:05:32Z | ERROR    | main                 | -                      | Fetch failed
+Traceback (most recent call last):
+  File "/home/runner/work/tweet-to-telegram/tweet-to-telegram/bot.py", line 164, in main
+    user = await client.get_user_by_screen_name(TWITTER_USER)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.16/x64/lib/python3.11/site-packages/twikit/client/client.py", line 1394, in get_user_by_screen_name
+    response, _ = await self.gql.user_by_screen_name(screen_name)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.16/x64/lib/python3.11/site-packages/twikit/client/gql.py", line 253, in user_by_screen_name
+    return await self.gql_get(Endpoint.USER_BY_SCREEN_NAME, variables, USER_FEATURES, extra_params=params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.16/x64/lib/python3.11/site-packages/twikit/client/gql.py", line 124, in gql_get
+    return await self.base.get(url, params=flatten_params(params), headers=headers, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.16/x64/lib/python3.11/site-packages/twikit/client/client.py", line 211, in get
+    return await self.request('GET', url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.16/x64/lib/python3.11/site-packages/twikit/client/client.py", line 188, in request
+    raise Unauthorized(message, headers=response.headers)
+twikit.errors.Unauthorized: status: 401, message: "{"errors":[{"message":"Could not authenticate you","code":32}]}
+"
