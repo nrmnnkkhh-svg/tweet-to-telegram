@@ -2752,3 +2752,16 @@ Traceback (most recent call last):
     self.description_urls: list = legacy['entities']['description']['urls']
                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
 KeyError: 'urls'
+2026-08-25T17:15:20Z | INFO     | logger               | -                      | ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-08-25T17:15:20Z | INFO     | logger               | -                      | Logging started | instance='main' | file=main_bot.log | flag=True
+2026-08-25T17:15:20Z | INFO     | main                 | -                      | Run started
+2026-08-25T17:15:20Z | INFO     | main                 | -                      | Twikit client cookies set
+2026-08-25T17:15:20Z | WARNING  | main                 | -                      | Bypassing x-client-transaction-id init
+2026-08-25T17:15:20Z | DEBUG    | main                 | -                      | Using dummy transaction id for GET /i/api/graphql/NimuplG1OB7Fd2btCLdBOw/UserByScreenName
+2026-08-25T17:15:20Z | INFO     | main                 | -                      | User ID: 1005185803172106241
+2026-08-25T17:15:20Z | ERROR    | main                 | -                      | Fetch failed
+Traceback (most recent call last):
+  File "/home/runner/work/tweet-to-telegram/tweet-to-telegram/bot.py", line 175, in main
+    raw_tweets_response, _ = await client.gql.user_tweets(user_id, count=30)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: GQLClient.user_tweets() missing 1 required positional argument: 'cursor'
