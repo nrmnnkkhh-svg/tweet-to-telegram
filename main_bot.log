@@ -4188,3 +4188,32 @@ twikit.errors.Forbidden: status: 403, message: ""
 2026-08-28T12:20:47Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2093274949662245316
 2026-08-28T12:20:48Z | INFO     | process_tweet        | 2093312759052075497    | Sent tweet → msg 14649
 2026-08-28T12:20:49Z | INFO     | process_tweet        | 2093312759052075497    | Run complete
+2026-08-28T12:25:34Z | INFO     | logger               | -                      | ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-08-28T12:25:34Z | INFO     | logger               | -                      | Logging started | instance='main' | file=main_bot.log | flag=True
+2026-08-28T12:25:34Z | INFO     | main                 | -                      | Run started
+2026-08-28T12:25:34Z | INFO     | main                 | -                      | Twikit client cookies set
+2026-08-28T12:25:34Z | WARNING  | main                 | -                      | Bypassing x-client-transaction-id init
+2026-08-28T12:25:34Z | DEBUG    | main                 | -                      | Using dummy transaction id for GET /i/api/graphql/NimuplG1OB7Fd2btCLdBOw/UserByScreenName
+2026-08-28T12:25:34Z | INFO     | main                 | -                      | User ID: 1005185803172106241
+2026-08-28T12:25:34Z | WARNING  | main                 | -                      | Bypassing x-client-transaction-id init
+2026-08-28T12:25:34Z | DEBUG    | main                 | -                      | Using dummy transaction id for GET /i/api/graphql/QWF3SzpHmykQHsQMixG0cg/UserTweets
+2026-08-28T12:25:35Z | INFO     | main                 | -                      | Fetched 17 tweets
+2026-08-28T12:25:35Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2093312759052075497
+2026-08-28T12:25:35Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2093310437768986884
+2026-08-28T12:25:35Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2093305847984124362
+2026-08-28T12:25:35Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2093305108549304596
+2026-08-28T12:25:35Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2093301264725553419
+2026-08-28T12:25:35Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2093300027342893498
+2026-08-28T12:25:35Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2093296263668130214
+2026-08-28T12:25:35Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2093293513081282827
+2026-08-28T12:25:35Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2093292121797083508
+2026-08-28T12:25:35Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2093288732463944112
+2026-08-28T12:25:35Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2093286114605830524
+2026-08-28T12:25:35Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2093284515774943344
+2026-08-28T12:25:35Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2093282961059688508
+2026-08-28T12:25:35Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2093282303472545831
+2026-08-28T12:25:35Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2093280582620840154
+2026-08-28T12:25:35Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2093279009349959816
+2026-08-28T12:25:35Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2093274949662245316
+2026-08-28T12:25:35Z | INFO     | main                 | -                      | No new tweets
+2026-08-28T12:25:35Z | INFO     | main                 | -                      | Run complete
