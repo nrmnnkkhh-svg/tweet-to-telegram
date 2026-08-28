@@ -3672,3 +3672,26 @@
 2026-08-28T10:45:41Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2093259418116722729
 2026-08-28T10:45:41Z | INFO     | process_tweet        | 2093288732463944112    | Sent tweet → msg 14640
 2026-08-28T10:45:43Z | INFO     | process_tweet        | 2093288732463944112    | Run complete
+2026-08-28T10:50:44Z | INFO     | logger               | -                      | ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-08-28T10:50:44Z | INFO     | logger               | -                      | Logging started | instance='main' | file=main_bot.log | flag=True
+2026-08-28T10:50:44Z | INFO     | main                 | -                      | Run started
+2026-08-28T10:50:44Z | INFO     | main                 | -                      | Twikit client cookies set
+2026-08-28T10:50:44Z | WARNING  | main                 | -                      | Bypassing x-client-transaction-id init
+2026-08-28T10:50:44Z | DEBUG    | main                 | -                      | Using dummy transaction id for GET /i/api/graphql/NimuplG1OB7Fd2btCLdBOw/UserByScreenName
+2026-08-28T10:50:44Z | ERROR    | main                 | -                      | Fetch failed
+Traceback (most recent call last):
+  File "/home/runner/work/tweet-to-telegram/tweet-to-telegram/bot.py", line 163, in main
+    raw_user_response, _ = await client.gql.user_by_screen_name(TWITTER_USER)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.16/x64/lib/python3.11/site-packages/twikit/client/gql.py", line 253, in user_by_screen_name
+    return await self.gql_get(Endpoint.USER_BY_SCREEN_NAME, variables, USER_FEATURES, extra_params=params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.16/x64/lib/python3.11/site-packages/twikit/client/gql.py", line 124, in gql_get
+    return await self.base.get(url, params=flatten_params(params), headers=headers, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.16/x64/lib/python3.11/site-packages/twikit/client/client.py", line 211, in get
+    return await self.request('GET', url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.16/x64/lib/python3.11/site-packages/twikit/client/client.py", line 190, in request
+    raise Forbidden(message, headers=response.headers)
+twikit.errors.Forbidden: status: 403, message: ""
