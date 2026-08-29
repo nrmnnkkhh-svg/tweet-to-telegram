@@ -7294,3 +7294,18 @@ twikit.errors.Forbidden: status: 403, message: ""
 2026-08-29T04:35:33Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2093523585478394227
 2026-08-29T04:35:33Z | INFO     | process_tweet        | 2093557517766848558    | Sent tweet → msg 14712
 2026-08-29T04:35:35Z | INFO     | process_tweet        | 2093557517766848558    | Run complete
+2026-08-29T04:40:42Z | INFO     | logger               | -                      | ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-08-29T04:40:42Z | INFO     | logger               | -                      | Logging started | instance='main' | file=main_bot.log | flag=True
+2026-08-29T04:40:42Z | INFO     | main                 | -                      | Run started
+2026-08-29T04:40:42Z | INFO     | main                 | -                      | Twikit client cookies set
+2026-08-29T04:40:42Z | WARNING  | main                 | -                      | Bypassing x-client-transaction-id init
+2026-08-29T04:40:42Z | DEBUG    | main                 | -                      | Using dummy transaction id for GET /i/api/graphql/NimuplG1OB7Fd2btCLdBOw/UserByScreenName
+2026-08-29T04:40:42Z | INFO     | main                 | -                      | User ID: 1005185803172106241
+2026-08-29T04:40:42Z | WARNING  | main                 | -                      | Bypassing x-client-transaction-id init
+2026-08-29T04:40:42Z | DEBUG    | main                 | -                      | Using dummy transaction id for GET /i/api/graphql/QWF3SzpHmykQHsQMixG0cg/UserTweets
+2026-08-29T04:40:43Z | INFO     | main                 | -                      | Fetched 4 tweets
+2026-08-29T04:40:43Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2093557517766848558
+2026-08-29T04:40:43Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2093555242088435889
+2026-08-29T04:40:43Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2093553996325617847
+2026-08-29T04:40:43Z | INFO     | process_tweet        | 2093559322223448513    | Sent tweet → msg 14713
+2026-08-29T04:40:45Z | INFO     | process_tweet        | 2093559322223448513    | Run complete
