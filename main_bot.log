@@ -6914,3 +6914,14 @@ twikit.errors.Forbidden: status: 403, message: ""
 2026-08-29T01:55:31Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2093512213847810423
 2026-08-29T01:55:31Z | INFO     | main                 | -                      | No new tweets
 2026-08-29T01:55:32Z | INFO     | main                 | -                      | Run complete
+2026-08-29T02:00:58Z | INFO     | logger               | -                      | ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-08-29T02:00:58Z | INFO     | logger               | -                      | Logging started | instance='main' | file=main_bot.log | flag=True
+2026-08-29T02:00:58Z | INFO     | main                 | -                      | Run started
+2026-08-29T02:00:58Z | INFO     | main                 | -                      | Twikit client cookies set
+2026-08-29T02:00:58Z | WARNING  | main                 | -                      | Bypassing x-client-transaction-id init
+2026-08-29T02:00:58Z | DEBUG    | main                 | -                      | Using dummy transaction id for GET /i/api/graphql/NimuplG1OB7Fd2btCLdBOw/UserByScreenName
+2026-08-29T02:00:58Z | INFO     | main                 | -                      | User ID: 1005185803172106241
+2026-08-29T02:00:58Z | WARNING  | main                 | -                      | Bypassing x-client-transaction-id init
+2026-08-29T02:00:58Z | DEBUG    | main                 | -                      | Using dummy transaction id for GET /i/api/graphql/QWF3SzpHmykQHsQMixG0cg/UserTweets
+2026-08-29T02:00:58Z | INFO     | main                 | -                      | Fetched 0 tweets
+2026-08-29T02:00:58Z | INFO     | main                 | -                      | No tweets
