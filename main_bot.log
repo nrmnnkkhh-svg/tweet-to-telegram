@@ -1250,3 +1250,18 @@
 2026-08-30T23:00:59Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2094179765871689876
 2026-08-30T23:00:59Z | INFO     | main                 | -                      | No new tweets
 2026-08-30T23:00:59Z | INFO     | main                 | -                      | Run complete
+2026-08-30T23:05:35Z | INFO     | logger               | -                      | ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-08-30T23:05:35Z | INFO     | logger               | -                      | Logging started | instance='main' | file=main_bot.log | flag=True
+2026-08-30T23:05:35Z | INFO     | main                 | -                      | Run started
+2026-08-30T23:05:35Z | INFO     | main                 | -                      | Twikit client cookies set
+2026-08-30T23:05:35Z | WARNING  | main                 | -                      | Bypassing x-client-transaction-id init
+2026-08-30T23:05:35Z | DEBUG    | main                 | -                      | Using dummy transaction id for GET /i/api/graphql/NimuplG1OB7Fd2btCLdBOw/UserByScreenName
+2026-08-30T23:05:35Z | INFO     | main                 | -                      | User ID: 1005185803172106241
+2026-08-30T23:05:35Z | WARNING  | main                 | -                      | Bypassing x-client-transaction-id init
+2026-08-30T23:05:35Z | DEBUG    | main                 | -                      | Using dummy transaction id for GET /i/api/graphql/QWF3SzpHmykQHsQMixG0cg/UserTweets
+2026-08-30T23:05:35Z | INFO     | main                 | -                      | Fetched 3 tweets
+2026-08-30T23:05:35Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2094195382892806290
+2026-08-30T23:05:35Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2094192356912251347
+2026-08-30T23:05:35Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2094192205678191041
+2026-08-30T23:05:35Z | INFO     | main                 | -                      | No new tweets
+2026-08-30T23:05:35Z | INFO     | main                 | -                      | Run complete
