@@ -6237,3 +6237,17 @@ aiohttp.client_exceptions.ConnectionTimeoutError: Connection timeout to host htt
 2026-09-03T09:01:06Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2095423275341844822
 2026-09-03T09:01:06Z | INFO     | main                 | -                      | No new tweets
 2026-09-03T09:01:06Z | INFO     | main                 | -                      | Run complete
+2026-09-03T09:05:37Z | INFO     | logger               | -                      | ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-09-03T09:05:37Z | INFO     | logger               | -                      | Logging started | instance='main' | file=main_bot.log | flag=True
+2026-09-03T09:05:37Z | INFO     | main                 | -                      | Run started
+2026-09-03T09:05:37Z | INFO     | main                 | -                      | Twikit client cookies set
+2026-09-03T09:05:37Z | WARNING  | main                 | -                      | Bypassing x-client-transaction-id init
+2026-09-03T09:05:37Z | DEBUG    | main                 | -                      | Using dummy transaction id for GET /i/api/graphql/NimuplG1OB7Fd2btCLdBOw/UserByScreenName
+2026-09-03T09:05:38Z | INFO     | main                 | -                      | User ID: 1005185803172106241
+2026-09-03T09:05:38Z | WARNING  | main                 | -                      | Bypassing x-client-transaction-id init
+2026-09-03T09:05:38Z | DEBUG    | main                 | -                      | Using dummy transaction id for GET /i/api/graphql/QWF3SzpHmykQHsQMixG0cg/UserTweets
+2026-09-03T09:05:38Z | INFO     | main                 | -                      | Fetched 3 tweets
+2026-09-03T09:05:38Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2095430755816022368
+2026-09-03T09:05:38Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2095423275341844822
+2026-09-03T09:05:38Z | INFO     | process_tweet        | 2095437569123139616    | Sent tweet → msg 15470
+2026-09-03T09:05:40Z | INFO     | process_tweet        | 2095437569123139616    | Run complete
