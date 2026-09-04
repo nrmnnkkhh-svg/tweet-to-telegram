@@ -5552,3 +5552,33 @@
 2026-09-04T14:05:40Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2095853269302104204
 2026-09-04T14:05:40Z | INFO     | main                 | -                      | No new tweets
 2026-09-04T14:05:40Z | INFO     | main                 | -                      | Run complete
+2026-09-04T14:10:38Z | INFO     | logger               | -                      | ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-09-04T14:10:38Z | INFO     | logger               | -                      | Logging started | instance='main' | file=main_bot.log | flag=True
+2026-09-04T14:10:38Z | INFO     | main                 | -                      | Run started
+2026-09-04T14:10:38Z | INFO     | main                 | -                      | Twikit client cookies set
+2026-09-04T14:10:38Z | WARNING  | main                 | -                      | Bypassing x-client-transaction-id init
+2026-09-04T14:10:38Z | DEBUG    | main                 | -                      | Using dummy transaction id for GET /i/api/graphql/NimuplG1OB7Fd2btCLdBOw/UserByScreenName
+2026-09-04T14:10:39Z | INFO     | main                 | -                      | User ID: 1005185803172106241
+2026-09-04T14:10:39Z | WARNING  | main                 | -                      | Bypassing x-client-transaction-id init
+2026-09-04T14:10:39Z | DEBUG    | main                 | -                      | Using dummy transaction id for GET /i/api/graphql/QWF3SzpHmykQHsQMixG0cg/UserTweets
+2026-09-04T14:10:39Z | INFO     | main                 | -                      | Fetched 19 tweets
+2026-09-04T14:10:39Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2095874564932681934
+2026-09-04T14:10:39Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2095873647017644118
+2026-09-04T14:10:39Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2095872739529613354
+2026-09-04T14:10:39Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2095868140651425946
+2026-09-04T14:10:39Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2095866576050266183
+2026-09-04T14:10:39Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2095865401724813542
+2026-09-04T14:10:39Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2095865386688295245
+2026-09-04T14:10:39Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2095864827809874300
+2026-09-04T14:10:39Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2095862773838200935
+2026-09-04T14:10:39Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2095861246318772533
+2026-09-04T14:10:39Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2095860919192428832
+2026-09-04T14:10:39Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2095858217649578011
+2026-09-04T14:10:39Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2095857387764646239
+2026-09-04T14:10:39Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2095855655508713582
+2026-09-04T14:10:39Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2095854829629280532
+2026-09-04T14:10:39Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2095854479199396029
+2026-09-04T14:10:39Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2095853269302104204
+2026-09-04T14:10:39Z | INFO     | process_tweet        | 2095876125725470958    | Sent tweet → msg 15618
+2026-09-04T14:10:41Z | INFO     | process_tweet        | 2095876335847583878    | Sent tweet → msg 15619
+2026-09-04T14:10:43Z | INFO     | process_tweet        | 2095876335847583878    | Run complete
