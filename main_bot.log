@@ -5573,3 +5573,16 @@ KeyError: 'code'
 2026-09-06T01:00:59Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2096381292203938181
 2026-09-06T01:00:59Z | INFO     | process_tweet        | 2096403210357334178    | Sent tweet → msg 15767
 2026-09-06T01:01:01Z | INFO     | process_tweet        | 2096403210357334178    | Run complete
+2026-09-06T01:05:28Z | INFO     | logger               | -                      | ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-09-06T01:05:28Z | INFO     | logger               | -                      | Logging started | instance='main' | file=main_bot.log | flag=True
+2026-09-06T01:05:28Z | INFO     | main                 | -                      | Run started
+2026-09-06T01:05:28Z | INFO     | main                 | -                      | Twikit client cookies set
+2026-09-06T01:05:28Z | WARNING  | main                 | -                      | Bypassing x-client-transaction-id init
+2026-09-06T01:05:28Z | DEBUG    | main                 | -                      | Using dummy transaction id for GET /i/api/graphql/NimuplG1OB7Fd2btCLdBOw/UserByScreenName
+2026-09-06T01:05:28Z | INFO     | main                 | -                      | User ID: 1005185803172106241
+2026-09-06T01:05:28Z | WARNING  | main                 | -                      | Bypassing x-client-transaction-id init
+2026-09-06T01:05:28Z | DEBUG    | main                 | -                      | Using dummy transaction id for GET /i/api/graphql/QWF3SzpHmykQHsQMixG0cg/UserTweets
+2026-09-06T01:05:29Z | INFO     | main                 | -                      | Fetched 2 tweets
+2026-09-06T01:05:29Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2096386127133339970
+2026-09-06T01:05:29Z | INFO     | process_tweet        | 2096404093124108798    | Sent tweet → msg 15768
+2026-09-06T01:05:31Z | INFO     | process_tweet        | 2096404093124108798    | Run complete
