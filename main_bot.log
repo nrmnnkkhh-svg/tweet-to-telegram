@@ -3059,3 +3059,14 @@
 2026-09-07T01:35:36Z | DEBUG    | main                 | -                      | Using dummy transaction id for GET /i/api/graphql/QWF3SzpHmykQHsQMixG0cg/UserTweets
 2026-09-07T01:35:36Z | INFO     | main                 | -                      | Fetched 0 tweets
 2026-09-07T01:35:36Z | INFO     | main                 | -                      | No tweets
+2026-09-07T01:40:41Z | INFO     | logger               | -                      | ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-09-07T01:40:41Z | INFO     | logger               | -                      | Logging started | instance='main' | file=main_bot.log | flag=True
+2026-09-07T01:40:41Z | INFO     | main                 | -                      | Run started
+2026-09-07T01:40:41Z | INFO     | main                 | -                      | Twikit client cookies set
+2026-09-07T01:40:41Z | WARNING  | main                 | -                      | Bypassing x-client-transaction-id init
+2026-09-07T01:40:41Z | DEBUG    | main                 | -                      | Using dummy transaction id for GET /i/api/graphql/NimuplG1OB7Fd2btCLdBOw/UserByScreenName
+2026-09-07T01:40:41Z | INFO     | main                 | -                      | User ID: 1005185803172106241
+2026-09-07T01:40:41Z | WARNING  | main                 | -                      | Bypassing x-client-transaction-id init
+2026-09-07T01:40:41Z | DEBUG    | main                 | -                      | Using dummy transaction id for GET /i/api/graphql/QWF3SzpHmykQHsQMixG0cg/UserTweets
+2026-09-07T01:40:42Z | INFO     | main                 | -                      | Fetched 0 tweets
+2026-09-07T01:40:42Z | INFO     | main                 | -                      | No tweets
