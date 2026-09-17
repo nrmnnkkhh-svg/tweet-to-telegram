@@ -2918,3 +2918,24 @@ Traceback (most recent call last):
   File "/opt/hostedtoolcache/Python/3.11.16/x64/lib/python3.11/site-packages/httpx/_transports/default.py", line 118, in map_httpcore_exceptions
     raise mapped_exc(message) from exc
 httpx.ReadTimeout
+2026-09-17T19:30:50Z | INFO     | logger               | -                      | ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-09-17T19:30:50Z | INFO     | logger               | -                      | Logging started | instance='main' | file=main_bot.log | flag=True
+2026-09-17T19:30:50Z | INFO     | main                 | -                      | Run started
+2026-09-17T19:30:50Z | INFO     | main                 | -                      | Twikit client cookies set
+2026-09-17T19:30:50Z | WARNING  | main                 | -                      | Bypassing x-client-transaction-id init
+2026-09-17T19:30:50Z | DEBUG    | main                 | -                      | Using dummy transaction id for GET /i/api/graphql/NimuplG1OB7Fd2btCLdBOw/UserByScreenName
+2026-09-17T19:30:50Z | INFO     | main                 | -                      | User ID: 1005185803172106241
+2026-09-17T19:30:50Z | WARNING  | main                 | -                      | Bypassing x-client-transaction-id init
+2026-09-17T19:30:50Z | DEBUG    | main                 | -                      | Using dummy transaction id for GET /i/api/graphql/QWF3SzpHmykQHsQMixG0cg/UserTweets
+2026-09-17T19:30:51Z | INFO     | main                 | -                      | Fetched 10 tweets
+2026-09-17T19:30:51Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2100658138403754237
+2026-09-17T19:30:51Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2100657758265626682
+2026-09-17T19:30:51Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2100657606268158296
+2026-09-17T19:30:51Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2100654013259690155
+2026-09-17T19:30:51Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2100652916382056750
+2026-09-17T19:30:51Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2100648709449031963
+2026-09-17T19:30:51Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2100646542180851818
+2026-09-17T19:30:51Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2100644039687037422
+2026-09-17T19:30:51Z | INFO     | process_tweet        | 2100665430104748058    | Sent tweet → msg 17379
+2026-09-17T19:30:53Z | INFO     | process_tweet        | 2100668267773755643    | Sent tweet → msg 17380
+2026-09-17T19:30:55Z | INFO     | process_tweet        | 2100668267773755643    | Run complete
