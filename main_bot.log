@@ -1289,3 +1289,19 @@
 2026-09-18T21:50:45Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2101059652721017334
 2026-09-18T21:50:45Z | INFO     | main                 | -                      | No new tweets
 2026-09-18T21:50:45Z | INFO     | main                 | -                      | Run complete
+2026-09-18T21:55:31Z | INFO     | logger               | -                      | ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-09-18T21:55:31Z | INFO     | logger               | -                      | Logging started | instance='main' | file=main_bot.log | flag=True
+2026-09-18T21:55:31Z | INFO     | main                 | -                      | Run started
+2026-09-18T21:55:31Z | INFO     | main                 | -                      | Twikit client cookies set
+2026-09-18T21:55:31Z | WARNING  | main                 | -                      | Bypassing x-client-transaction-id init
+2026-09-18T21:55:31Z | DEBUG    | main                 | -                      | Using dummy transaction id for GET /i/api/graphql/NimuplG1OB7Fd2btCLdBOw/UserByScreenName
+2026-09-18T21:55:32Z | INFO     | main                 | -                      | User ID: 1005185803172106241
+2026-09-18T21:55:32Z | WARNING  | main                 | -                      | Bypassing x-client-transaction-id init
+2026-09-18T21:55:32Z | DEBUG    | main                 | -                      | Using dummy transaction id for GET /i/api/graphql/QWF3SzpHmykQHsQMixG0cg/UserTweets
+2026-09-18T21:55:32Z | INFO     | main                 | -                      | Fetched 5 tweets
+2026-09-18T21:55:32Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2101059652721017334
+2026-09-18T21:55:32Z | INFO     | process_tweet        | 2101066521854222610    | Sent tweet → msg 17484
+2026-09-18T21:55:34Z | INFO     | process_tweet        | 2101066782811562419    | Sent tweet → msg 17485
+2026-09-18T21:55:36Z | INFO     | process_tweet        | 2101067071241048313    | Sent tweet → msg 17486
+2026-09-18T21:55:38Z | INFO     | process_tweet        | 2101067438808822099    | Sent tweet → msg 17487
+2026-09-18T21:55:40Z | INFO     | process_tweet        | 2101067438808822099    | Run complete
