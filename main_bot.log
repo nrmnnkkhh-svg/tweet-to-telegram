@@ -1764,3 +1764,18 @@
 2026-09-19T00:55:32Z | DEBUG    | main                 | -                      | Using dummy transaction id for GET /i/api/graphql/QWF3SzpHmykQHsQMixG0cg/UserTweets
 2026-09-19T00:55:32Z | INFO     | main                 | -                      | Fetched 0 tweets
 2026-09-19T00:55:32Z | INFO     | main                 | -                      | No tweets
+2026-09-19T01:00:59Z | INFO     | logger               | -                      | ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-09-19T01:00:59Z | INFO     | logger               | -                      | Logging started | instance='main' | file=main_bot.log | flag=True
+2026-09-19T01:00:59Z | INFO     | main                 | -                      | Run started
+2026-09-19T01:00:59Z | INFO     | main                 | -                      | Twikit client cookies set
+2026-09-19T01:00:59Z | WARNING  | main                 | -                      | Bypassing x-client-transaction-id init
+2026-09-19T01:00:59Z | DEBUG    | main                 | -                      | Using dummy transaction id for GET /i/api/graphql/NimuplG1OB7Fd2btCLdBOw/UserByScreenName
+2026-09-19T01:00:59Z | INFO     | main                 | -                      | User ID: 1005185803172106241
+2026-09-19T01:00:59Z | WARNING  | main                 | -                      | Bypassing x-client-transaction-id init
+2026-09-19T01:00:59Z | DEBUG    | main                 | -                      | Using dummy transaction id for GET /i/api/graphql/QWF3SzpHmykQHsQMixG0cg/UserTweets
+2026-09-19T01:01:00Z | INFO     | main                 | -                      | Fetched 4 tweets
+2026-09-19T01:01:00Z | INFO     | process_tweet        | 2101113048924914036    | Sent tweet → msg 17495
+2026-09-19T01:01:02Z | INFO     | process_tweet        | 2101113121314333021    | Edited msg 17495
+2026-09-19T01:01:04Z | INFO     | process_tweet        | 2101113812950913030    | Sent tweet → msg 17496
+2026-09-19T01:01:06Z | INFO     | process_tweet        | 2101113951220289994    | Edited msg 17496
+2026-09-19T01:01:08Z | INFO     | process_tweet        | 2101113951220289994    | Run complete
