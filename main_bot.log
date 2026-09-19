@@ -2921,3 +2921,18 @@
 2026-09-19T07:31:03Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2101209978577035774
 2026-09-19T07:31:03Z | INFO     | process_tweet        | 2101211520969392159    | Sent tweet → msg 17509
 2026-09-19T07:31:05Z | INFO     | process_tweet        | 2101211520969392159    | Run complete
+2026-09-19T07:35:43Z | INFO     | logger               | -                      | ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-09-19T07:35:43Z | INFO     | logger               | -                      | Logging started | instance='main' | file=main_bot.log | flag=True
+2026-09-19T07:35:43Z | INFO     | main                 | -                      | Run started
+2026-09-19T07:35:43Z | INFO     | main                 | -                      | Twikit client cookies set
+2026-09-19T07:35:43Z | WARNING  | main                 | -                      | Bypassing x-client-transaction-id init
+2026-09-19T07:35:43Z | DEBUG    | main                 | -                      | Using dummy transaction id for GET /i/api/graphql/NimuplG1OB7Fd2btCLdBOw/UserByScreenName
+2026-09-19T07:35:43Z | INFO     | main                 | -                      | User ID: 1005185803172106241
+2026-09-19T07:35:43Z | WARNING  | main                 | -                      | Bypassing x-client-transaction-id init
+2026-09-19T07:35:43Z | DEBUG    | main                 | -                      | Using dummy transaction id for GET /i/api/graphql/QWF3SzpHmykQHsQMixG0cg/UserTweets
+2026-09-19T07:35:44Z | INFO     | main                 | -                      | Fetched 4 tweets
+2026-09-19T07:35:44Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2101211520969392159
+2026-09-19T07:35:44Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2101210158319767902
+2026-09-19T07:35:44Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2101209978577035774
+2026-09-19T07:35:44Z | INFO     | process_tweet        | 2101213508389966148    | Sent tweet → msg 17510
+2026-09-19T07:35:46Z | INFO     | process_tweet        | 2101213508389966148    | Run complete
