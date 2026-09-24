@@ -2252,3 +2252,32 @@
 2026-09-24T18:20:48Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2103171044978594091
 2026-09-24T18:20:48Z | INFO     | main                 | -                      | No new tweets
 2026-09-24T18:20:48Z | INFO     | main                 | -                      | Run complete
+2026-09-24T18:25:33Z | INFO     | logger               | -                      | ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-09-24T18:25:33Z | INFO     | logger               | -                      | Logging started | instance='main' | file=main_bot.log | flag=True
+2026-09-24T18:25:33Z | INFO     | main                 | -                      | Run started
+2026-09-24T18:25:33Z | INFO     | main                 | -                      | Twikit client cookies set
+2026-09-24T18:25:33Z | WARNING  | main                 | -                      | Bypassing x-client-transaction-id init
+2026-09-24T18:25:33Z | DEBUG    | main                 | -                      | Using dummy transaction id for GET /i/api/graphql/NimuplG1OB7Fd2btCLdBOw/UserByScreenName
+2026-09-24T18:25:33Z | INFO     | main                 | -                      | User ID: 1005185803172106241
+2026-09-24T18:25:33Z | WARNING  | main                 | -                      | Bypassing x-client-transaction-id init
+2026-09-24T18:25:33Z | DEBUG    | main                 | -                      | Using dummy transaction id for GET /i/api/graphql/QWF3SzpHmykQHsQMixG0cg/UserTweets
+2026-09-24T18:25:34Z | ERROR    | main                 | -                      | Fetch failed
+Traceback (most recent call last):
+  File "/home/runner/work/tweet-to-telegram/tweet-to-telegram/bot.py", line 175, in main
+    raw_tweets_response, _ = await client.gql.user_tweets(user_id, cursor=None, count=30)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.16/x64/lib/python3.11/site-packages/twikit/client/gql.py", line 322, in user_tweets
+    return await self._get_user_tweets(user_id, count, cursor, Endpoint.USER_TWEETS)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.16/x64/lib/python3.11/site-packages/twikit/client/gql.py", line 319, in _get_user_tweets
+    return await self.gql_get(endpoint, variables, FEATURES)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.16/x64/lib/python3.11/site-packages/twikit/client/gql.py", line 124, in gql_get
+    return await self.base.get(url, params=flatten_params(params), headers=headers, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.16/x64/lib/python3.11/site-packages/twikit/client/client.py", line 211, in get
+    return await self.request('GET', url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.16/x64/lib/python3.11/site-packages/twikit/client/client.py", line 200, in request
+    raise ServerError(message, headers=response.headers)
+twikit.errors.ServerError: status: 503, message: "upstream connect error or disconnect/reset before headers. reset reason: connection timeout"
