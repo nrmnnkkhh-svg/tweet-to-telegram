@@ -5617,3 +5617,29 @@ twikit.errors.ServerError: status: 503, message: "upstream connect error or disc
 2026-09-25T08:10:42Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2103345522027196457
 2026-09-25T08:10:42Z | INFO     | process_tweet        | 2103396469449327080    | Sent tweet → msg 18278
 2026-09-25T08:10:44Z | INFO     | process_tweet        | 2103396469449327080    | Run complete
+2026-09-25T08:15:39Z | INFO     | logger               | -                      | ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-09-25T08:15:39Z | INFO     | logger               | -                      | Logging started | instance='main' | file=main_bot.log | flag=True
+2026-09-25T08:15:39Z | INFO     | main                 | -                      | Run started
+2026-09-25T08:15:39Z | INFO     | main                 | -                      | Twikit client cookies set
+2026-09-25T08:15:39Z | WARNING  | main                 | -                      | Bypassing x-client-transaction-id init
+2026-09-25T08:15:39Z | DEBUG    | main                 | -                      | Using dummy transaction id for GET /i/api/graphql/NimuplG1OB7Fd2btCLdBOw/UserByScreenName
+2026-09-25T08:15:40Z | INFO     | main                 | -                      | User ID: 1005185803172106241
+2026-09-25T08:15:40Z | WARNING  | main                 | -                      | Bypassing x-client-transaction-id init
+2026-09-25T08:15:40Z | DEBUG    | main                 | -                      | Using dummy transaction id for GET /i/api/graphql/QWF3SzpHmykQHsQMixG0cg/UserTweets
+2026-09-25T08:15:40Z | INFO     | main                 | -                      | Fetched 14 tweets
+2026-09-25T08:15:40Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2103396469449327080
+2026-09-25T08:15:40Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2103395402162565519
+2026-09-25T08:15:40Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2103390364677673452
+2026-09-25T08:15:40Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2103384793127825779
+2026-09-25T08:15:40Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2103384215060689112
+2026-09-25T08:15:40Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2103382652048888288
+2026-09-25T08:15:40Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2103376686410834067
+2026-09-25T08:15:40Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2103372781190869204
+2026-09-25T08:15:40Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2103367719345385521
+2026-09-25T08:15:40Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2103366699106111805
+2026-09-25T08:15:40Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2103362300107206748
+2026-09-25T08:15:40Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2103358516345950582
+2026-09-25T08:15:40Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2103349916797997557
+2026-09-25T08:15:40Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2103348138664656968
+2026-09-25T08:15:40Z | INFO     | main                 | -                      | No new tweets
+2026-09-25T08:15:40Z | INFO     | main                 | -                      | Run complete
