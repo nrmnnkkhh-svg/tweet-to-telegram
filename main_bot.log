@@ -7591,3 +7591,17 @@ twikit.errors.ServerError: status: 503, message: "upstream connect error or disc
 2026-09-25T15:50:45Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2103500532325269729
 2026-09-25T15:50:45Z | INFO     | process_tweet        | 2103511727119753318    | Sent tweet → msg 18327
 2026-09-25T15:50:47Z | INFO     | process_tweet        | 2103511727119753318    | Run complete
+2026-09-25T15:55:36Z | INFO     | logger               | -                      | ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-09-25T15:55:36Z | INFO     | logger               | -                      | Logging started | instance='main' | file=main_bot.log | flag=True
+2026-09-25T15:55:36Z | INFO     | main                 | -                      | Run started
+2026-09-25T15:55:36Z | INFO     | main                 | -                      | Twikit client cookies set
+2026-09-25T15:55:36Z | WARNING  | main                 | -                      | Bypassing x-client-transaction-id init
+2026-09-25T15:55:36Z | DEBUG    | main                 | -                      | Using dummy transaction id for GET /i/api/graphql/NimuplG1OB7Fd2btCLdBOw/UserByScreenName
+2026-09-25T15:55:36Z | INFO     | main                 | -                      | User ID: 1005185803172106241
+2026-09-25T15:55:36Z | WARNING  | main                 | -                      | Bypassing x-client-transaction-id init
+2026-09-25T15:55:36Z | DEBUG    | main                 | -                      | Using dummy transaction id for GET /i/api/graphql/QWF3SzpHmykQHsQMixG0cg/UserTweets
+2026-09-25T15:55:36Z | INFO     | main                 | -                      | Fetched 3 tweets
+2026-09-25T15:55:36Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2103500532325269729
+2026-09-25T15:55:37Z | INFO     | process_tweet        | 2103512806637158405    | Sent tweet → msg 18328
+2026-09-25T15:55:39Z | INFO     | process_tweet        | 2103513105426739689    | Sent tweet → msg 18329
+2026-09-25T15:55:41Z | INFO     | process_tweet        | 2103513105426739689    | Run complete
