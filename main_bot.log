@@ -7578,3 +7578,16 @@ twikit.errors.ServerError: status: 503, message: "upstream connect error or disc
 2026-09-25T15:45:40Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2103500532325269729
 2026-09-25T15:45:40Z | INFO     | main                 | -                      | No new tweets
 2026-09-25T15:45:40Z | INFO     | main                 | -                      | Run complete
+2026-09-25T15:50:44Z | INFO     | logger               | -                      | ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-09-25T15:50:44Z | INFO     | logger               | -                      | Logging started | instance='main' | file=main_bot.log | flag=True
+2026-09-25T15:50:44Z | INFO     | main                 | -                      | Run started
+2026-09-25T15:50:44Z | INFO     | main                 | -                      | Twikit client cookies set
+2026-09-25T15:50:44Z | WARNING  | main                 | -                      | Bypassing x-client-transaction-id init
+2026-09-25T15:50:44Z | DEBUG    | main                 | -                      | Using dummy transaction id for GET /i/api/graphql/NimuplG1OB7Fd2btCLdBOw/UserByScreenName
+2026-09-25T15:50:44Z | INFO     | main                 | -                      | User ID: 1005185803172106241
+2026-09-25T15:50:44Z | WARNING  | main                 | -                      | Bypassing x-client-transaction-id init
+2026-09-25T15:50:44Z | DEBUG    | main                 | -                      | Using dummy transaction id for GET /i/api/graphql/QWF3SzpHmykQHsQMixG0cg/UserTweets
+2026-09-25T15:50:45Z | INFO     | main                 | -                      | Fetched 2 tweets
+2026-09-25T15:50:45Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2103500532325269729
+2026-09-25T15:50:45Z | INFO     | process_tweet        | 2103511727119753318    | Sent tweet → msg 18327
+2026-09-25T15:50:47Z | INFO     | process_tweet        | 2103511727119753318    | Run complete
