@@ -4187,3 +4187,14 @@
 2026-09-28T00:15:35Z | INFO     | main                 | -                      | Fetched 1 tweets
 2026-09-28T00:15:35Z | INFO     | process_tweet        | 2104362966724522451    | Sent tweet → msg 18590
 2026-09-28T00:15:37Z | INFO     | process_tweet        | 2104362966724522451    | Run complete
+2026-09-28T00:20:35Z | INFO     | logger               | -                      | ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-09-28T00:20:35Z | INFO     | logger               | -                      | Logging started | instance='main' | file=main_bot.log | flag=True
+2026-09-28T00:20:35Z | INFO     | main                 | -                      | Run started
+2026-09-28T00:20:35Z | INFO     | main                 | -                      | Twikit client cookies set
+2026-09-28T00:20:35Z | WARNING  | main                 | -                      | Bypassing x-client-transaction-id init
+2026-09-28T00:20:35Z | DEBUG    | main                 | -                      | Using dummy transaction id for GET /i/api/graphql/NimuplG1OB7Fd2btCLdBOw/UserByScreenName
+2026-09-28T00:20:35Z | INFO     | main                 | -                      | User ID: 1005185803172106241
+2026-09-28T00:20:35Z | WARNING  | main                 | -                      | Bypassing x-client-transaction-id init
+2026-09-28T00:20:35Z | DEBUG    | main                 | -                      | Using dummy transaction id for GET /i/api/graphql/QWF3SzpHmykQHsQMixG0cg/UserTweets
+2026-09-28T00:20:36Z | INFO     | main                 | -                      | Fetched 0 tweets
+2026-09-28T00:20:36Z | INFO     | main                 | -                      | No tweets
