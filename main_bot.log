@@ -7137,3 +7137,26 @@ Exception: Could not find user ID: {"data": {}}
 2026-10-05T12:55:36Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2107067757506490684
 2026-10-05T12:55:37Z | INFO     | process_tweet        | 2107091804881666551    | Sent tweet → msg 19460
 2026-10-05T12:55:38Z | INFO     | process_tweet        | 2107091804881666551    | Run complete
+2026-10-05T13:01:04Z | INFO     | logger               | -                      | ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-10-05T13:01:04Z | INFO     | logger               | -                      | Logging started | instance='main' | file=main_bot.log | flag=True
+2026-10-05T13:01:04Z | INFO     | main                 | -                      | Run started
+2026-10-05T13:01:04Z | INFO     | main                 | -                      | Twikit client cookies set
+2026-10-05T13:01:04Z | WARNING  | main                 | -                      | Bypassing x-client-transaction-id init
+2026-10-05T13:01:04Z | DEBUG    | main                 | -                      | Using dummy transaction id for GET /i/api/graphql/NimuplG1OB7Fd2btCLdBOw/UserByScreenName
+2026-10-05T13:01:04Z | INFO     | main                 | -                      | User ID: 1005185803172106241
+2026-10-05T13:01:04Z | WARNING  | main                 | -                      | Bypassing x-client-transaction-id init
+2026-10-05T13:01:04Z | DEBUG    | main                 | -                      | Using dummy transaction id for GET /i/api/graphql/QWF3SzpHmykQHsQMixG0cg/UserTweets
+2026-10-05T13:01:04Z | INFO     | main                 | -                      | Fetched 12 tweets
+2026-10-05T13:01:04Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2107091804881666551
+2026-10-05T13:01:04Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2107091092953083962
+2026-10-05T13:01:04Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2107091079933628630
+2026-10-05T13:01:04Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2107090589733015921
+2026-10-05T13:01:04Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2107087988941365523
+2026-10-05T13:01:04Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2107083251261337782
+2026-10-05T13:01:04Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2107083131358425249
+2026-10-05T13:01:04Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2107082835324535011
+2026-10-05T13:01:04Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2107076589594829202
+2026-10-05T13:01:04Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2107069858047463761
+2026-10-05T13:01:04Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2107068146553389106
+2026-10-05T13:01:05Z | INFO     | process_tweet        | 2107092771924238573    | Sent tweet → msg 19461
+2026-10-05T13:01:07Z | INFO     | process_tweet        | 2107092771924238573    | Run complete
