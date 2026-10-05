@@ -7001,3 +7001,26 @@ Traceback (most recent call last):
   File "/home/runner/work/tweet-to-telegram/tweet-to-telegram/bot.py", line 171, in main
     raise Exception(f"Could not find user ID: {json.dumps(raw_user_response)[:300]}")
 Exception: Could not find user ID: {"data": {}}
+2026-10-05T12:30:52Z | INFO     | logger               | -                      | ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-10-05T12:30:52Z | INFO     | logger               | -                      | Logging started | instance='main' | file=main_bot.log | flag=True
+2026-10-05T12:30:52Z | INFO     | main                 | -                      | Run started
+2026-10-05T12:30:52Z | INFO     | main                 | -                      | Twikit client cookies set
+2026-10-05T12:30:52Z | WARNING  | main                 | -                      | Bypassing x-client-transaction-id init
+2026-10-05T12:30:52Z | DEBUG    | main                 | -                      | Using dummy transaction id for GET /i/api/graphql/NimuplG1OB7Fd2btCLdBOw/UserByScreenName
+2026-10-05T12:30:52Z | INFO     | main                 | -                      | User ID: 1005185803172106241
+2026-10-05T12:30:52Z | WARNING  | main                 | -                      | Bypassing x-client-transaction-id init
+2026-10-05T12:30:52Z | DEBUG    | main                 | -                      | Using dummy transaction id for GET /i/api/graphql/QWF3SzpHmykQHsQMixG0cg/UserTweets
+2026-10-05T12:30:53Z | INFO     | main                 | -                      | Fetched 11 tweets
+2026-10-05T12:30:53Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2107083251261337782
+2026-10-05T12:30:53Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2107083131358425249
+2026-10-05T12:30:53Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2107082835324535011
+2026-10-05T12:30:53Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2107076589594829202
+2026-10-05T12:30:53Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2107069858047463761
+2026-10-05T12:30:53Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2107068146553389106
+2026-10-05T12:30:53Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2107067757506490684
+2026-10-05T12:30:53Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2107067152263987220
+2026-10-05T12:30:53Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2107058826226659375
+2026-10-05T12:30:53Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2107053983395196997
+2026-10-05T12:30:53Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2107049677724020783
+2026-10-05T12:30:53Z | INFO     | main                 | -                      | No new tweets
+2026-10-05T12:30:53Z | INFO     | main                 | -                      | Run complete
