@@ -6990,3 +6990,14 @@ Exception: Could not find user ID: {"data": {}}
 2026-10-05T12:20:46Z | INFO     | process_tweet        | 2107083131358425249    | Sent tweet → msg 19453
 2026-10-05T12:20:48Z | INFO     | process_tweet        | 2107083251261337782    | Sent tweet → msg 19454
 2026-10-05T12:20:50Z | INFO     | process_tweet        | 2107083251261337782    | Run complete
+2026-10-05T12:25:35Z | INFO     | logger               | -                      | ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-10-05T12:25:35Z | INFO     | logger               | -                      | Logging started | instance='main' | file=main_bot.log | flag=True
+2026-10-05T12:25:35Z | INFO     | main                 | -                      | Run started
+2026-10-05T12:25:35Z | INFO     | main                 | -                      | Twikit client cookies set
+2026-10-05T12:25:35Z | WARNING  | main                 | -                      | Bypassing x-client-transaction-id init
+2026-10-05T12:25:35Z | DEBUG    | main                 | -                      | Using dummy transaction id for GET /i/api/graphql/NimuplG1OB7Fd2btCLdBOw/UserByScreenName
+2026-10-05T12:25:36Z | ERROR    | main                 | -                      | Fetch failed
+Traceback (most recent call last):
+  File "/home/runner/work/tweet-to-telegram/tweet-to-telegram/bot.py", line 171, in main
+    raise Exception(f"Could not find user ID: {json.dumps(raw_user_response)[:300]}")
+Exception: Could not find user ID: {"data": {}}
