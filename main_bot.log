@@ -5453,3 +5453,17 @@
 2026-10-10T23:15:35Z | INFO     | process_tweet        | 2109059083596705901    | Sent tweet → msg 20218
 2026-10-10T23:15:37Z | INFO     | process_tweet        | 2109059111631622153    | Edited msg 20218
 2026-10-10T23:15:39Z | INFO     | process_tweet        | 2109059111631622153    | Run complete
+2026-10-10T23:20:41Z | INFO     | logger               | -                      | ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-10-10T23:20:41Z | INFO     | logger               | -                      | Logging started | instance='main' | file=main_bot.log | flag=True
+2026-10-10T23:20:41Z | INFO     | main                 | -                      | Run started
+2026-10-10T23:20:41Z | INFO     | main                 | -                      | Twikit client cookies set
+2026-10-10T23:20:41Z | WARNING  | main                 | -                      | Bypassing x-client-transaction-id init
+2026-10-10T23:20:41Z | DEBUG    | main                 | -                      | Using dummy transaction id for GET /i/api/graphql/NimuplG1OB7Fd2btCLdBOw/UserByScreenName
+2026-10-10T23:20:42Z | INFO     | main                 | -                      | User ID: 1005185803172106241
+2026-10-10T23:20:42Z | WARNING  | main                 | -                      | Bypassing x-client-transaction-id init
+2026-10-10T23:20:42Z | DEBUG    | main                 | -                      | Using dummy transaction id for GET /i/api/graphql/QWF3SzpHmykQHsQMixG0cg/UserTweets
+2026-10-10T23:20:42Z | INFO     | main                 | -                      | Fetched 2 tweets
+2026-10-10T23:20:42Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2109049446256549892
+2026-10-10T23:20:42Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2109048425002197403
+2026-10-10T23:20:42Z | INFO     | main                 | -                      | No new tweets
+2026-10-10T23:20:42Z | INFO     | main                 | -                      | Run complete
