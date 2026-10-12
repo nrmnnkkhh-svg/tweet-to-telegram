@@ -6661,3 +6661,27 @@
 2026-10-12T16:40:38Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2109664816487088342
 2026-10-12T16:40:38Z | INFO     | main                 | -                      | No new tweets
 2026-10-12T16:40:39Z | INFO     | main                 | -                      | Run complete
+2026-10-12T16:45:36Z | INFO     | logger               | -                      | ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-10-12T16:45:36Z | INFO     | logger               | -                      | Logging started | instance='main' | file=main_bot.log | flag=True
+2026-10-12T16:45:36Z | INFO     | main                 | -                      | Run started
+2026-10-12T16:45:36Z | INFO     | main                 | -                      | Twikit client cookies set
+2026-10-12T16:45:36Z | WARNING  | main                 | -                      | Bypassing x-client-transaction-id init
+2026-10-12T16:45:36Z | DEBUG    | main                 | -                      | Using dummy transaction id for GET /i/api/graphql/NimuplG1OB7Fd2btCLdBOw/UserByScreenName
+2026-10-12T16:45:36Z | INFO     | main                 | -                      | User ID: 1005185803172106241
+2026-10-12T16:45:36Z | WARNING  | main                 | -                      | Bypassing x-client-transaction-id init
+2026-10-12T16:45:36Z | DEBUG    | main                 | -                      | Using dummy transaction id for GET /i/api/graphql/QWF3SzpHmykQHsQMixG0cg/UserTweets
+2026-10-12T16:45:36Z | INFO     | main                 | -                      | Fetched 13 tweets
+2026-10-12T16:45:36Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2109683993138360676
+2026-10-12T16:45:36Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2109682625204130178
+2026-10-12T16:45:36Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2109679105289425230
+2026-10-12T16:45:36Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2109678065957920942
+2026-10-12T16:45:36Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2109675148408390045
+2026-10-12T16:45:36Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2109672938563903800
+2026-10-12T16:45:36Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2109672906498441488
+2026-10-12T16:45:36Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2109671163940970833
+2026-10-12T16:45:36Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2109670636893204719
+2026-10-12T16:45:36Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2109669689538249158
+2026-10-12T16:45:36Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2109665978787483760
+2026-10-12T16:45:36Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2109665875590889705
+2026-10-12T16:45:37Z | INFO     | process_tweet        | 2109686162088706183    | Sent tweet → msg 20470
+2026-10-12T16:45:39Z | INFO     | process_tweet        | 2109686162088706183    | Run complete
