@@ -3064,3 +3064,17 @@
 2026-10-12T00:05:34Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2109419221851464125
 2026-10-12T00:05:34Z | INFO     | process_tweet        | 2109435177726607797    | Sent tweet → msg 20354
 2026-10-12T00:05:36Z | INFO     | process_tweet        | 2109435177726607797    | Run complete
+2026-10-12T00:10:38Z | INFO     | logger               | -                      | ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-10-12T00:10:38Z | INFO     | logger               | -                      | Logging started | instance='main' | file=main_bot.log | flag=True
+2026-10-12T00:10:38Z | INFO     | main                 | -                      | Run started
+2026-10-12T00:10:38Z | INFO     | main                 | -                      | Twikit client cookies set
+2026-10-12T00:10:38Z | WARNING  | main                 | -                      | Bypassing x-client-transaction-id init
+2026-10-12T00:10:38Z | DEBUG    | main                 | -                      | Using dummy transaction id for GET /i/api/graphql/NimuplG1OB7Fd2btCLdBOw/UserByScreenName
+2026-10-12T00:10:38Z | INFO     | main                 | -                      | User ID: 1005185803172106241
+2026-10-12T00:10:38Z | WARNING  | main                 | -                      | Bypassing x-client-transaction-id init
+2026-10-12T00:10:38Z | DEBUG    | main                 | -                      | Using dummy transaction id for GET /i/api/graphql/QWF3SzpHmykQHsQMixG0cg/UserTweets
+2026-10-12T00:10:39Z | INFO     | main                 | -                      | Fetched 3 tweets
+2026-10-12T00:10:39Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2109432620622970906
+2026-10-12T00:10:39Z | INFO     | process_tweet        | 2109435409159868578    | Edited msg 20354
+2026-10-12T00:10:41Z | INFO     | process_tweet        | 2109436407072915565    | Sent tweet → msg 20355
+2026-10-12T00:10:43Z | INFO     | process_tweet        | 2109436407072915565    | Run complete
