@@ -3050,3 +3050,17 @@
 2026-10-12T00:00:57Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2109418518781329872
 2026-10-12T00:00:58Z | INFO     | process_tweet        | 2109433891761136098    | Sent tweet → msg 20353
 2026-10-12T00:00:59Z | INFO     | process_tweet        | 2109433891761136098    | Run complete
+2026-10-12T00:05:33Z | INFO     | logger               | -                      | ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-10-12T00:05:33Z | INFO     | logger               | -                      | Logging started | instance='main' | file=main_bot.log | flag=True
+2026-10-12T00:05:33Z | INFO     | main                 | -                      | Run started
+2026-10-12T00:05:33Z | INFO     | main                 | -                      | Twikit client cookies set
+2026-10-12T00:05:33Z | WARNING  | main                 | -                      | Bypassing x-client-transaction-id init
+2026-10-12T00:05:33Z | DEBUG    | main                 | -                      | Using dummy transaction id for GET /i/api/graphql/NimuplG1OB7Fd2btCLdBOw/UserByScreenName
+2026-10-12T00:05:33Z | INFO     | main                 | -                      | User ID: 1005185803172106241
+2026-10-12T00:05:33Z | WARNING  | main                 | -                      | Bypassing x-client-transaction-id init
+2026-10-12T00:05:33Z | DEBUG    | main                 | -                      | Using dummy transaction id for GET /i/api/graphql/QWF3SzpHmykQHsQMixG0cg/UserTweets
+2026-10-12T00:05:34Z | INFO     | main                 | -                      | Fetched 3 tweets
+2026-10-12T00:05:34Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2109432620622970906
+2026-10-12T00:05:34Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2109419221851464125
+2026-10-12T00:05:34Z | INFO     | process_tweet        | 2109435177726607797    | Sent tweet → msg 20354
+2026-10-12T00:05:36Z | INFO     | process_tweet        | 2109435177726607797    | Run complete
