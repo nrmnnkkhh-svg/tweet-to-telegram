@@ -2377,3 +2377,18 @@
 2026-10-13T08:30:48Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2109911918098239899
 2026-10-13T08:30:48Z | INFO     | process_tweet        | 2109923978059911292    | Sent tweet → msg 20561
 2026-10-13T08:30:50Z | INFO     | process_tweet        | 2109923978059911292    | Run complete
+2026-10-13T08:35:31Z | INFO     | logger               | -                      | ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-10-13T08:35:31Z | INFO     | logger               | -                      | Logging started | instance='main' | file=main_bot.log | flag=True
+2026-10-13T08:35:31Z | INFO     | main                 | -                      | Run started
+2026-10-13T08:35:31Z | INFO     | main                 | -                      | Twikit client cookies set
+2026-10-13T08:35:31Z | WARNING  | main                 | -                      | Bypassing x-client-transaction-id init
+2026-10-13T08:35:31Z | DEBUG    | main                 | -                      | Using dummy transaction id for GET /i/api/graphql/NimuplG1OB7Fd2btCLdBOw/UserByScreenName
+2026-10-13T08:35:31Z | INFO     | main                 | -                      | User ID: 1005185803172106241
+2026-10-13T08:35:31Z | WARNING  | main                 | -                      | Bypassing x-client-transaction-id init
+2026-10-13T08:35:31Z | DEBUG    | main                 | -                      | Using dummy transaction id for GET /i/api/graphql/QWF3SzpHmykQHsQMixG0cg/UserTweets
+2026-10-13T08:35:31Z | INFO     | main                 | -                      | Fetched 4 tweets
+2026-10-13T08:35:31Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2109923978059911292
+2026-10-13T08:35:31Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2109911918098239899
+2026-10-13T08:35:32Z | INFO     | process_tweet        | 2109925273328034202    | Sent tweet → msg 20562
+2026-10-13T08:35:34Z | INFO     | process_tweet        | 2109925908119159123    | Sent tweet → msg 20563
+2026-10-13T08:35:36Z | INFO     | process_tweet        | 2109925908119159123    | Run complete
