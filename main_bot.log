@@ -640,3 +640,289 @@
 2026-10-14T10:25:36Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2110300480819667368
 2026-10-14T10:25:36Z | INFO     | process_tweet        | 2110316055893815463    | Sent tweet → msg 20761
 2026-10-14T10:25:38Z | INFO     | process_tweet        | 2110316055893815463    | Run complete
+2026-10-14T10:30:45Z | INFO     | logger               | -                      | ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-10-14T10:30:45Z | INFO     | logger               | -                      | Logging started | instance='main' | file=main_bot.log | flag=True
+2026-10-14T10:30:45Z | INFO     | main                 | -                      | Run started
+2026-10-14T10:30:45Z | INFO     | main                 | -                      | Twikit client cookies set
+2026-10-14T10:30:45Z | WARNING  | main                 | -                      | Bypassing x-client-transaction-id init
+2026-10-14T10:30:45Z | DEBUG    | main                 | -                      | Using dummy transaction id for GET /i/api/graphql/NimuplG1OB7Fd2btCLdBOw/UserByScreenName
+2026-10-14T10:30:45Z | INFO     | main                 | -                      | User ID: 1005185803172106241
+2026-10-14T10:30:45Z | WARNING  | main                 | -                      | Bypassing x-client-transaction-id init
+2026-10-14T10:30:45Z | DEBUG    | main                 | -                      | Using dummy transaction id for GET /i/api/graphql/QWF3SzpHmykQHsQMixG0cg/UserTweets
+2026-10-14T10:30:46Z | INFO     | main                 | -                      | Fetched 11 tweets
+2026-10-14T10:30:46Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2110312710835495193
+2026-10-14T10:30:46Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2110312268659617794
+2026-10-14T10:30:46Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2110311132804038991
+2026-10-14T10:30:46Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2110310815580528713
+2026-10-14T10:30:46Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2110308469748187452
+2026-10-14T10:30:46Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2110306938835620311
+2026-10-14T10:30:46Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2110305239857307799
+2026-10-14T10:30:46Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2110301658102247696
+2026-10-14T10:30:46Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2110301124414832951
+2026-10-14T10:30:46Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2110300480819667368
+2026-10-14T10:31:16Z | ERROR    | process_tweet        | 2110316463378911466    | Telegram send error (attempt 1)
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/aiohttp/connector.py", line 1322, in _wrap_create_connection
+    sock = await aiohappyeyeballs.start_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/aiohappyeyeballs/impl.py", line 89, in start_connection
+    sock, _, _ = await _staggered.staggered_race(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/aiohappyeyeballs/_staggered.py", line 155, in staggered_race
+    done = await _wait_one(
+           ^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/aiohappyeyeballs/_staggered.py", line 36, in _wait_one
+    return await wait_next
+           ^^^^^^^^^^^^^^^
+asyncio.exceptions.CancelledError
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/aiohttp/client.py", line 854, in _connect_and_send_request
+    conn = await self._connector.connect(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/aiohttp/connector.py", line 665, in connect
+    proto = await self._create_connection(req, traces, timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/aiohttp/connector.py", line 1263, in _create_connection
+    _, proto = await self._create_direct_connection(req, traces, timeout)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/aiohttp/connector.py", line 1641, in _create_direct_connection
+    raise last_exc
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/aiohttp/connector.py", line 1610, in _create_direct_connection
+    transp, proto = await self._wrap_create_connection(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/aiohttp/connector.py", line 1319, in _wrap_create_connection
+    async with ceil_timeout(
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/asyncio/timeouts.py", line 115, in __aexit__
+    raise TimeoutError from exc_val
+TimeoutError
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/runner/work/tweet-to-telegram/tweet-to-telegram/bot.py", line 61, in send_message
+    async with sess.post(url, json=payload) as resp:
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/aiohttp/client.py", line 1756, in __aenter__
+    self._resp: _RetType_co = await self._coro
+                              ^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/aiohttp/client.py", line 900, in _request
+    resp = await handler(req)
+           ^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/aiohttp/client.py", line 858, in _connect_and_send_request
+    raise ConnectionTimeoutError(
+aiohttp.client_exceptions.ConnectionTimeoutError: Connection timeout to host https://api.telegram.org/bot8483058409:AAHW18zTjER2Y2f2aaK31UJV3rOHgOflUCY/sendMessage
+2026-10-14T10:31:48Z | ERROR    | process_tweet        | 2110316463378911466    | Telegram send error (attempt 2)
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/aiohttp/connector.py", line 1322, in _wrap_create_connection
+    sock = await aiohappyeyeballs.start_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/aiohappyeyeballs/impl.py", line 89, in start_connection
+    sock, _, _ = await _staggered.staggered_race(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/aiohappyeyeballs/_staggered.py", line 155, in staggered_race
+    done = await _wait_one(
+           ^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/aiohappyeyeballs/_staggered.py", line 36, in _wait_one
+    return await wait_next
+           ^^^^^^^^^^^^^^^
+asyncio.exceptions.CancelledError
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/aiohttp/client.py", line 854, in _connect_and_send_request
+    conn = await self._connector.connect(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/aiohttp/connector.py", line 665, in connect
+    proto = await self._create_connection(req, traces, timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/aiohttp/connector.py", line 1263, in _create_connection
+    _, proto = await self._create_direct_connection(req, traces, timeout)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/aiohttp/connector.py", line 1641, in _create_direct_connection
+    raise last_exc
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/aiohttp/connector.py", line 1610, in _create_direct_connection
+    transp, proto = await self._wrap_create_connection(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/aiohttp/connector.py", line 1319, in _wrap_create_connection
+    async with ceil_timeout(
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/asyncio/timeouts.py", line 115, in __aexit__
+    raise TimeoutError from exc_val
+TimeoutError
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/runner/work/tweet-to-telegram/tweet-to-telegram/bot.py", line 61, in send_message
+    async with sess.post(url, json=payload) as resp:
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/aiohttp/client.py", line 1756, in __aenter__
+    self._resp: _RetType_co = await self._coro
+                              ^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/aiohttp/client.py", line 900, in _request
+    resp = await handler(req)
+           ^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/aiohttp/client.py", line 858, in _connect_and_send_request
+    raise ConnectionTimeoutError(
+aiohttp.client_exceptions.ConnectionTimeoutError: Connection timeout to host https://api.telegram.org/bot8483058409:AAHW18zTjER2Y2f2aaK31UJV3rOHgOflUCY/sendMessage
+2026-10-14T10:32:21Z | ERROR    | process_tweet        | 2110316463378911466    | Telegram send error (attempt 3)
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/aiohttp/connector.py", line 1322, in _wrap_create_connection
+    sock = await aiohappyeyeballs.start_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/aiohappyeyeballs/impl.py", line 89, in start_connection
+    sock, _, _ = await _staggered.staggered_race(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/aiohappyeyeballs/_staggered.py", line 155, in staggered_race
+    done = await _wait_one(
+           ^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/aiohappyeyeballs/_staggered.py", line 36, in _wait_one
+    return await wait_next
+           ^^^^^^^^^^^^^^^
+asyncio.exceptions.CancelledError
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/aiohttp/client.py", line 854, in _connect_and_send_request
+    conn = await self._connector.connect(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/aiohttp/connector.py", line 665, in connect
+    proto = await self._create_connection(req, traces, timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/aiohttp/connector.py", line 1263, in _create_connection
+    _, proto = await self._create_direct_connection(req, traces, timeout)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/aiohttp/connector.py", line 1641, in _create_direct_connection
+    raise last_exc
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/aiohttp/connector.py", line 1610, in _create_direct_connection
+    transp, proto = await self._wrap_create_connection(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/aiohttp/connector.py", line 1319, in _wrap_create_connection
+    async with ceil_timeout(
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/asyncio/timeouts.py", line 115, in __aexit__
+    raise TimeoutError from exc_val
+TimeoutError
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/runner/work/tweet-to-telegram/tweet-to-telegram/bot.py", line 61, in send_message
+    async with sess.post(url, json=payload) as resp:
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/aiohttp/client.py", line 1756, in __aenter__
+    self._resp: _RetType_co = await self._coro
+                              ^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/aiohttp/client.py", line 900, in _request
+    resp = await handler(req)
+           ^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/aiohttp/client.py", line 858, in _connect_and_send_request
+    raise ConnectionTimeoutError(
+aiohttp.client_exceptions.ConnectionTimeoutError: Connection timeout to host https://api.telegram.org/bot8483058409:AAHW18zTjER2Y2f2aaK31UJV3rOHgOflUCY/sendMessage
+2026-10-14T10:32:56Z | ERROR    | process_tweet        | 2110316463378911466    | Telegram send error (attempt 4)
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/aiohttp/connector.py", line 1322, in _wrap_create_connection
+    sock = await aiohappyeyeballs.start_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/aiohappyeyeballs/impl.py", line 89, in start_connection
+    sock, _, _ = await _staggered.staggered_race(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/aiohappyeyeballs/_staggered.py", line 155, in staggered_race
+    done = await _wait_one(
+           ^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/aiohappyeyeballs/_staggered.py", line 36, in _wait_one
+    return await wait_next
+           ^^^^^^^^^^^^^^^
+asyncio.exceptions.CancelledError
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/aiohttp/client.py", line 854, in _connect_and_send_request
+    conn = await self._connector.connect(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/aiohttp/connector.py", line 665, in connect
+    proto = await self._create_connection(req, traces, timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/aiohttp/connector.py", line 1263, in _create_connection
+    _, proto = await self._create_direct_connection(req, traces, timeout)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/aiohttp/connector.py", line 1641, in _create_direct_connection
+    raise last_exc
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/aiohttp/connector.py", line 1610, in _create_direct_connection
+    transp, proto = await self._wrap_create_connection(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/aiohttp/connector.py", line 1319, in _wrap_create_connection
+    async with ceil_timeout(
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/asyncio/timeouts.py", line 115, in __aexit__
+    raise TimeoutError from exc_val
+TimeoutError
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/runner/work/tweet-to-telegram/tweet-to-telegram/bot.py", line 61, in send_message
+    async with sess.post(url, json=payload) as resp:
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/aiohttp/client.py", line 1756, in __aenter__
+    self._resp: _RetType_co = await self._coro
+                              ^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/aiohttp/client.py", line 900, in _request
+    resp = await handler(req)
+           ^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/aiohttp/client.py", line 858, in _connect_and_send_request
+    raise ConnectionTimeoutError(
+aiohttp.client_exceptions.ConnectionTimeoutError: Connection timeout to host https://api.telegram.org/bot8483058409:AAHW18zTjER2Y2f2aaK31UJV3rOHgOflUCY/sendMessage
+2026-10-14T10:33:35Z | ERROR    | process_tweet        | 2110316463378911466    | Telegram send error (attempt 5)
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/aiohttp/connector.py", line 1322, in _wrap_create_connection
+    sock = await aiohappyeyeballs.start_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/aiohappyeyeballs/impl.py", line 89, in start_connection
+    sock, _, _ = await _staggered.staggered_race(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/aiohappyeyeballs/_staggered.py", line 155, in staggered_race
+    done = await _wait_one(
+           ^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/aiohappyeyeballs/_staggered.py", line 36, in _wait_one
+    return await wait_next
+           ^^^^^^^^^^^^^^^
+asyncio.exceptions.CancelledError
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/aiohttp/client.py", line 854, in _connect_and_send_request
+    conn = await self._connector.connect(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/aiohttp/connector.py", line 665, in connect
+    proto = await self._create_connection(req, traces, timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/aiohttp/connector.py", line 1263, in _create_connection
+    _, proto = await self._create_direct_connection(req, traces, timeout)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/aiohttp/connector.py", line 1641, in _create_direct_connection
+    raise last_exc
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/aiohttp/connector.py", line 1610, in _create_direct_connection
+    transp, proto = await self._wrap_create_connection(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/aiohttp/connector.py", line 1319, in _wrap_create_connection
+    async with ceil_timeout(
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/asyncio/timeouts.py", line 115, in __aexit__
+    raise TimeoutError from exc_val
+TimeoutError
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/runner/work/tweet-to-telegram/tweet-to-telegram/bot.py", line 61, in send_message
+    async with sess.post(url, json=payload) as resp:
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/aiohttp/client.py", line 1756, in __aenter__
+    self._resp: _RetType_co = await self._coro
+                              ^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/aiohttp/client.py", line 900, in _request
+    resp = await handler(req)
+           ^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.17/x64/lib/python3.11/site-packages/aiohttp/client.py", line 858, in _connect_and_send_request
+    raise ConnectionTimeoutError(
+aiohttp.client_exceptions.ConnectionTimeoutError: Connection timeout to host https://api.telegram.org/bot8483058409:AAHW18zTjER2Y2f2aaK31UJV3rOHgOflUCY/sendMessage
+2026-10-14T10:33:53Z | INFO     | process_tweet        | 2110316463378911466    | Run complete
