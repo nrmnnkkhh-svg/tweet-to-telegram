@@ -6661,3 +6661,25 @@ aiohttp.client_exceptions.ConnectionTimeoutError: Connection timeout to host htt
 2026-10-15T08:40:38Z | INFO     | process_tweet        | 2110651773883195835    | Sent tweet → msg 20871
 2026-10-15T08:40:40Z | INFO     | process_tweet        | 2110651801582387557    | Sent tweet → msg 20872
 2026-10-15T08:40:42Z | INFO     | process_tweet        | 2110651801582387557    | Run complete
+2026-10-15T08:45:38Z | INFO     | logger               | -                      | ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-10-15T08:45:38Z | INFO     | logger               | -                      | Logging started | instance='main' | file=main_bot.log | flag=True
+2026-10-15T08:45:38Z | INFO     | main                 | -                      | Run started
+2026-10-15T08:45:38Z | INFO     | main                 | -                      | Twikit client cookies set
+2026-10-15T08:45:38Z | WARNING  | main                 | -                      | Bypassing x-client-transaction-id init
+2026-10-15T08:45:38Z | DEBUG    | main                 | -                      | Using dummy transaction id for GET /i/api/graphql/NimuplG1OB7Fd2btCLdBOw/UserByScreenName
+2026-10-15T08:45:39Z | INFO     | main                 | -                      | User ID: 1005185803172106241
+2026-10-15T08:45:39Z | WARNING  | main                 | -                      | Bypassing x-client-transaction-id init
+2026-10-15T08:45:39Z | DEBUG    | main                 | -                      | Using dummy transaction id for GET /i/api/graphql/QWF3SzpHmykQHsQMixG0cg/UserTweets
+2026-10-15T08:45:39Z | INFO     | main                 | -                      | Fetched 11 tweets
+2026-10-15T08:45:39Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2110651801582387557
+2026-10-15T08:45:39Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2110651773883195835
+2026-10-15T08:45:39Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2110649475811168334
+2026-10-15T08:45:39Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2110645131221311926
+2026-10-15T08:45:39Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2110645050455601602
+2026-10-15T08:45:39Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2110643589210345543
+2026-10-15T08:45:39Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2110642385482883449
+2026-10-15T08:45:39Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2110641274898247836
+2026-10-15T08:45:39Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2110639672032636963
+2026-10-15T08:45:39Z | DEBUG    | main                 | -                      | Skipping duplicate tweet 2110638036463595740
+2026-10-15T08:45:39Z | INFO     | process_tweet        | 2110652694377664639    | Sent tweet → msg 20873
+2026-10-15T08:45:41Z | INFO     | process_tweet        | 2110652694377664639    | Run complete
