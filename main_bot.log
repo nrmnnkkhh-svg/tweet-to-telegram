@@ -4144,3 +4144,9 @@ Traceback (most recent call last):
     raise Unauthorized(message, headers=response.headers)
 twikit.errors.Unauthorized: status: 401, message: "{"errors":[{"message":"Could not authenticate you","code":32}]}
 "
+2026-11-22T11:05:29Z | INFO     | logger               | -                      | ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2026-11-22T11:05:29Z | INFO     | logger               | -                      | Logging started | instance='main' | file=main_bot.log | flag=True
+2026-11-22T11:05:29Z | INFO     | main                 | -                      | Run started
+2026-11-22T11:05:30Z | INFO     | main                 | -                      | Twikit client cookies set
+2026-11-22T11:05:30Z | WARNING  | main                 | -                      | Bypassing x-client-transaction-id init
+2026-11-22T11:05:30Z | DEBUG    | main                 | -                      | Using dummy transaction id for GET /i/api/graphql/NimuplG1OB7Fd2btCLdBOw/UserByScreenName
